@@ -1,4 +1,4 @@
-FROM wileyj/stacks-blockchain-api:render
+FROM wileyj/stacks-blockchain-api:render-nginx
 ARG PG_HOST=postgres
 ARG PG_PORT=5432 
 ARG PG_USER=postgres
