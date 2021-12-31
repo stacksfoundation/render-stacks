@@ -7,9 +7,7 @@ services:
     plan: standard # optional (defaults to starter)
     branch: mocknet-render 
     dockerfilePath: stacks-blockchain-api.Dockerfile
-    # dockerContext: . # optional
-    # dockerCommand: ./webdis.sh # optional (defaults to Dockerfile command)
-    healthCheckPath: /extended/v1/status
+    # healthCheckPath: /extended/v1/status
     envVars:
       - key: PG_HOST
         fromService:
