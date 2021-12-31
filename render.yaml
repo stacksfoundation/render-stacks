@@ -78,7 +78,7 @@ services:
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
-    branch: render-yaml 
+    branch: mocknet-render
     dockerfilePath: stacks-blockchain.Dockerfile
     # dockerContext: . # optional
     dockerCommand: /bin/stacks-node start --config /stacks-blockchain/Stacks-mocknet.toml
@@ -93,6 +93,9 @@ services:
   - type: pserv
     name: mocknet-postgres
     env: docker
+    region: oregon # optional (defaults to oregon)
+    plan: standard # optional (defaults to starter)
+    branch: mocknet-render
     dockerfilePath: postgres.Dockerfile
     envVars:
       - key: POSTGRES_PASSWORD
