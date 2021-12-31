@@ -1,5 +1,5 @@
 services:
-  # A Docker web service
+  # stacks-blockchain-api instance
   - type: web
     name: mocknet-stacks-blockchain-api
     env: docker
@@ -10,10 +10,8 @@ services:
     # dockerContext: . # optional
     # dockerCommand: ./webdis.sh # optional (defaults to Dockerfile command)
     healthCheckPath: /extended/v1/status
-    # envVars:
-    #   - key: STACKS_NETWORK
-    #     value: mocknet
-    - fromGroup: mocknet-settings
+    envVars:
+      - fromGroup: mocknet-settings
 
   # stacks-blockchain instance
   - type: pserv
