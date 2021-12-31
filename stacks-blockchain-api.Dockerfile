@@ -1,1 +1,1 @@
-FROM hirosystems/stacks-blockchain-api:v1.0.4
+FROM hirosystems/stacks-blockchain-api:1.0.4
