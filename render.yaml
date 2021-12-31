@@ -29,10 +29,7 @@ services:
           name: mocknet-postgres
           envVarKey: POSTGRES_PASSWORD
       - key: PG_DATABASE
-        fromService:
-          name: mocknet-postgres
-          type: pserv
-          property: database
+        value: postgres
       - key: STACKS_CORE_EVENT_PORT
         value: 3700
       - key: STACKS_CORE_EVENT_HOST
@@ -74,7 +71,7 @@ services:
       #   fromDatabase:
       #     name: mocknet-postgres
       #     property: password
-      
+
   # stacks-blockchain instance
   - type: pserv
     name: mocknet-stacks-blockchain
