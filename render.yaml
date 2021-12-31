@@ -1,5 +1,5 @@
 services:
-  # stacks-blockchain API instance
+  # A Docker web service
   - type: web
     name: mocknet-stacks-blockchain-api
     env: docker
