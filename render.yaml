@@ -11,8 +11,70 @@ services:
     # dockerCommand: ./webdis.sh # optional (defaults to Dockerfile command)
     healthCheckPath: /extended/v1/status
     envVars:
+      - key: PG_HOST
+        fromService:
+          name: mocknet-postgres
+          type: pserv
+          property: host
+      - key: PG_PORT
+        fromService:
+          name: mocknet-postgres
+          type: pserv
+          property: port
+      - key: PG_USER
+        value: postgres
+      - key: PG_PASSWORD
+        fromService:
+          type: pserv
+          name: mocknet-postgres
+          envVarKey: POSTGRES_PASSWORD
+      - key: PG_DATABASE
+        fromService:
+          name: mocknet-postgres
+          type: pserv
+          property: database
+      - key: STACKS_CORE_EVENT_PORT
+        value: 3700
+      - key: STACKS_CORE_EVENT_HOST
+        value: 0.0.0.0
+      - key: STACKS_BLOCKCHAIN_API_PORT
+        value: 3999
+      - key: STACKS_BLOCKCHAIN_API_HOST
+        value: 0.0.0.0
+      - key: STACKS_BLOCKCHAIN_API_DB
+        value: pg
+      - key: STACKS_CORE_RPC_HOST
+        fromService:
+          name: mocknet-stacks-blockchain
+          type: pserv
+          property: host
+      - key: STACKS_CORE_RPC_PORT
+        value: 20443
       - fromGroup: mocknet-settings
-
+      ##
+      ##  To use manageded DB connection settings
+      ## 
+      # - key: PG_HOST
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: host
+      # - key: PG_PORT
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: port
+      # - key: PG_DATABASE
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: database
+      # - key: PG_USER
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: user
+      # - key: PG_PASSWORD
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: password
+      
   # stacks-blockchain instance
   - type: pserv
     name: mocknet-stacks-blockchain
@@ -58,76 +120,13 @@ envVarGroups:
         value: production
       - key: GIT_TAG
         value: master
-      - key: PG_HOST
-        fromService:
-          name: mocknet-postgres
-          type: pserv
-          property: host
-      - key: PG_PORT
-        fromService:
-          name: mocknet-postgres
-          type: pserv
-          property: port
-      - key: PG_USER
-        value: postgres
-      - key: PG_PASSWORD
-        fromService:
-          type: pserv
-          name: mocknet-postgres
-          envVarKey: POSTGRES_PASSWORD
-      - key: PG_DATABASE
-        fromService:
-          name: mocknet-postgres
-          type: pserv
-          property: database
       - key: STACKS_CHAIN_ID
         value: 2147483648
       - key: V2_POX_MIN_AMOUNT_USTX
         value: 90000000260
-      - key: STACKS_CORE_EVENT_PORT
-        value: 3700
-      - key: STACKS_CORE_EVENT_HOST
-        value: 0.0.0.0
-      - key: STACKS_BLOCKCHAIN_API_PORT
-        value: 3999
-      - key: STACKS_BLOCKCHAIN_API_HOST
-        value: 0.0.0.0
-      - key: STACKS_BLOCKCHAIN_API_DB
-        value: pg
-      - key: STACKS_CORE_RPC_HOST
-        fromService:
-          name: mocknet-stacks-blockchain
-          type: pserv
-          property: host
-      - key: STACKS_CORE_RPC_PORT
-        value: 20443
       # - key: STACKS_EXPORT_EVENTS_FILE
       #   value: /tmp/event-replay/stacks-node-events.tsv
       # - key: BNS_IMPORT_DIR
       #   value: /bns-data
-
-      ##
-      ##  To use manageded DB connection settings
-      ## 
-      # - key: PG_HOST
-      #   fromDatabase:
-      #     name: mocknet-postgres
-      #     property: host
-      # - key: PG_PORT
-      #   fromDatabase:
-      #     name: mocknet-postgres
-      #     property: port
-      # - key: PG_DATABASE
-      #   fromDatabase:
-      #     name: mocknet-postgres
-      #     property: database
-      # - key: PG_USER
-      #   fromDatabase:
-      #     name: mocknet-postgres
-      #     property: user
-      # - key: PG_PASSWORD
-      #   fromDatabase:
-      #     name: mocknet-postgres
-      #     property: password
 
  
