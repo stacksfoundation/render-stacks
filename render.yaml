@@ -7,6 +7,8 @@ services:
     plan: standard # optional (defaults to starter)
     branch: mocknet-render 
     dockerfilePath: stacks-blockchain-api.Dockerfile
+    dockerContext: .
+    dockerCommand: npm run start
     # healthCheckPath: /extended/v1/status
     envVars:
       - key: PG_HOST
@@ -79,7 +81,7 @@ services:
     plan: standard # optional (defaults to starter)
     branch: mocknet-render
     dockerfilePath: stacks-blockchain.Dockerfile
-    # dockerContext: . # optional
+    dockerContext: .
     dockerCommand: /bin/stacks-node start --config /stacks-blockchain/Stacks-mocknet.toml
 
     # for mocknet, keep the data ephemeral
