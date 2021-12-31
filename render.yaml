@@ -1,0 +1,135 @@
+services:
+  # stacks-blockchain API instance
+  - type: web
+    name: mocknet-stacks-blockchain-api
+    env: docker
+    region: oregon # optional (defaults to oregon)
+    plan: standard # optional (defaults to starter)
+    branch: mocknet-render 
+    dockerfilePath: stacks-blockchain-api.Dockerfile
+    # dockerContext: . # optional
+    # dockerCommand: ./webdis.sh # optional (defaults to Dockerfile command)
+    healthCheckPath: /extended/v1/status
+    # envVars:
+    #   - key: STACKS_NETWORK
+    #     value: mocknet
+    - fromGroup: mocknet-settings
+
+  # stacks-blockchain instance
+  - type: pserv
+    name: mocknet-stacks-blockchain
+    env: docker
+    region: oregon # optional (defaults to oregon)
+    plan: standard # optional (defaults to starter)
+    branch: render-yaml 
+    dockerfilePath: stacks-blockchain.Dockerfile
+    # dockerContext: . # optional
+    dockerCommand: /bin/stacks-node start --config /stacks-blockchain/Stacks-mocknet.toml
+
+    # for mocknet, keep the data ephemeral
+    # disk:
+    #   name: stacks-blockchain-data
+    #   mountPath: /root/stacks-blockchain/data
+    #   sizeGB: 25 # optional
+
+  # Private Postgres instance
+  - type: pserv
+    name: mocknet-postgres
+    env: docker
+    dockerfilePath: postgres.Dockerfile
+    envVars:
+      - key: POSTGRES_PASSWORD
+        generateValue: true # will generate a base64-encoded 256-bit secret
+    # for mocknet, keep the data ephemeral
+    # disk:
+    #   name: postgres-data
+    #   mountPath: /var/lib/postgresql/data
+    #   sizeGB: 10 # optional
+
+# Managed postgres instance
+# databases:
+#   - name: mocknet-postgres
+#     databaseName: mocknet # optional (Render may add a suffix)
+#     user: mocknet # optional
+#     ipAllowList: []
+
+envVarGroups:
+  - name: mocknet-settings
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GIT_TAG
+        value: master
+      - key: PG_HOST
+        fromService:
+          name: mocknet-postgres
+          type: pserv
+          property: host
+      - key: PG_PORT
+        fromService:
+          name: mocknet-postgres
+          type: pserv
+          property: port
+      - key: PG_USER
+        value: postgres
+      - key: PG_PASSWORD
+        fromService:
+          type: pserv
+          name: mocknet-postgres
+          envVarKey: POSTGRES_PASSWORD
+      - key: PG_DATABASE
+        fromService:
+          name: mocknet-postgres
+          type: pserv
+          property: database
+      - key: STACKS_CHAIN_ID
+        value: 2147483648
+      - key: V2_POX_MIN_AMOUNT_USTX
+        value: 90000000260
+      - key: STACKS_CORE_EVENT_PORT
+        value: 3700
+      - key: STACKS_CORE_EVENT_HOST
+        value: 0.0.0.0
+      - key: STACKS_BLOCKCHAIN_API_PORT
+        value: 3999
+      - key: STACKS_BLOCKCHAIN_API_HOST
+        value: 0.0.0.0
+      - key: STACKS_BLOCKCHAIN_API_DB
+        value: pg
+      - key: STACKS_CORE_RPC_HOST
+        fromService:
+          name: mocknet-stacks-blockchain
+          type: pserv
+          property: host
+      - key: STACKS_CORE_RPC_PORT
+        value: 20443
+      # - key: STACKS_EXPORT_EVENTS_FILE
+      #   value: /tmp/event-replay/stacks-node-events.tsv
+      # - key: BNS_IMPORT_DIR
+      #   value: /bns-data
+
+      ##
+      ##  To use manageded DB connection settings
+      ## 
+      # - key: PG_HOST
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: host
+      # - key: PG_PORT
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: port
+      # - key: PG_DATABASE
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: database
+      # - key: PG_USER
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: user
+      # - key: PG_PASSWORD
+      #   fromDatabase:
+      #     name: mocknet-postgres
+      #     property: password
+
+ 
