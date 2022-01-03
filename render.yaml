@@ -43,10 +43,11 @@ services:
       - key: STACKS_BLOCKCHAIN_API_DB
         value: pg
       - key: STACKS_CORE_RPC_HOST
-        fromService:
-          name: testnet-stacks-blockchain
-          type: pserv
-          property: host
+        value: testnet-stacks-blockchain
+        # fromService:
+        #   name: testnet-stacks-blockchain
+        #   type: pserv
+        #   property: host
       - key: STACKS_CORE_RPC_PORT
         value: 20443
       - fromGroup: testnet-settings
