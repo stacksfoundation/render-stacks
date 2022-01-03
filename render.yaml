@@ -1,11 +1,11 @@
 services:
   # stacks-blockchain-api instance
   - type: web
-    name: mainnet-stacks-blockchain-api
+    name: testnet-stacks-blockchain-api
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
-    branch: mainnet-render 
+    branch: testnet-render 
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     dockerCommand: npm run start
@@ -13,13 +13,13 @@ services:
     envVars:
       - key: PG_HOST
         fromService:
-          name: mainnet-postgres
+          name: testnet-postgres
           type: pserv
           property: host
       - key: PG_PORT
         value: 5432
         # fromService:
-        #   name: mainnet-postgres
+        #   name: testnet-postgres
         #   type: pserv
         #   property: port
       - key: PG_USER
@@ -27,7 +27,7 @@ services:
       - key: PG_PASSWORD
         fromService:
           type: pserv
-          name: mainnet-postgres
+          name: testnet-postgres
           envVarKey: POSTGRES_PASSWORD
       - key: PG_DATABASE
         value: postgres
@@ -43,48 +43,48 @@ services:
         value: pg
       - key: STACKS_CORE_RPC_HOST
         fromService:
-          name: mainnet-stacks-blockchain
+          name: testnet-stacks-blockchain
           type: pserv
           property: host
       - key: STACKS_CORE_RPC_PORT
         value: 20443
-      - fromGroup: mainnet-settings
+      - fromGroup: testnet-settings
       ##
       ##  To use manageded DB connection settings
       ## 
       # - key: PG_HOST
       #   fromDatabase:
-      #     name: mainnet-postgres
+      #     name: testnet-postgres
       #     property: host
       # - key: PG_PORT
       #   fromDatabase:
-      #     name: mainnet-postgres
+      #     name: testnet-postgres
       #     property: port
       # - key: PG_DATABASE
       #   fromDatabase:
-      #     name: mainnet-postgres
+      #     name: testnet-postgres
       #     property: database
       # - key: PG_USER
       #   fromDatabase:
-      #     name: mainnet-postgres
+      #     name: testnet-postgres
       #     property: user
       # - key: PG_PASSWORD
       #   fromDatabase:
-      #     name: mainnet-postgres
+      #     name: testnet-postgres
       #     property: password
 
   # stacks-blockchain instance
   - type: pserv
-    name: mainnet-stacks-blockchain
+    name: testnet-stacks-blockchain
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
-    branch: mainnet-render
+    branch: testnet-render
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
-    dockerCommand: /bin/stacks-node start --config /stacks-blockchain/Stacks-mainnet.toml
+    dockerCommand: /bin/stacks-node start --config /stacks-blockchain/Stacks-testnet.toml
 
-    # for mainnet, keep the data ephemeral
+    # for testnet, keep the data ephemeral
     # disk:
     #   name: stacks-blockchain-data
     #   mountPath: /root/stacks-blockchain/data
@@ -92,16 +92,16 @@ services:
 
   # Private Postgres instance
   - type: pserv
-    name: mainnet-postgres
+    name: testnet-postgres
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
-    branch: mainnet-render
+    branch: testnet-render
     dockerfilePath: postgres.Dockerfile
     envVars:
       - key: POSTGRES_PASSWORD
         generateValue: true # will generate a base64-encoded 256-bit secret
-    # for mainnet, keep the data ephemeral
+    # for testnet, keep the data ephemeral
     # disk:
     #   name: postgres-data
     #   mountPath: /var/lib/postgresql/data
@@ -109,20 +109,20 @@ services:
 
 # Managed postgres instance
 # databases:
-#   - name: mainnet-postgres
-#     databaseName: mainnet # optional (Render may add a suffix)
-#     user: mainnet # optional
+#   - name: testnet-postgres
+#     databaseName: testnet # optional (Render may add a suffix)
+#     user: testnet # optional
 #     ipAllowList: []
 
 envVarGroups:
-  - name: mainnet-settings
+  - name: testnet-settings
     envVars:
       - key: NODE_ENV
         value: production
       - key: GIT_TAG
         value: master
       - key: STACKS_CHAIN_ID
-        value: 0x00000001
+        value: 0x80000000
       - key: V2_POX_MIN_AMOUNT_USTX
         value: 90000000260
       # - key: STACKS_EXPORT_EVENTS_FILE
