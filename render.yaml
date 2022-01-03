@@ -10,7 +10,7 @@ services:
     dockerContext: .
     dockerCommand: npm run start
     # healthCheckPath: /extended/v1/status
-    # healthCheckPath: /
+    healthCheckPath: /
     envVars:
       - key: PG_HOST
         fromService:
