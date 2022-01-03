@@ -10,6 +10,7 @@ services:
     dockerContext: .
     dockerCommand: npm run start
     # healthCheckPath: /extended/v1/status
+    healthCheckPath: /
     envVars:
       - key: PG_HOST
         fromService:
@@ -83,17 +84,17 @@ services:
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     dockerCommand: /bin/stacks-node start --config /stacks-blockchain/Stacks-testnet.toml
-    envVars:
-      - key: STACKS_API_HOST
-        fromService:
-          name: testnet-stacks-blockchain-api
-          type: web
-          property: host
+    # envVars:
+    #   - key: STACKS_API_HOST
+    #     fromService:
+    #       name: testnet-stacks-blockchain-api
+    #       type: web
+    #       property: host
     # for testnet, keep the data ephemeral
-    # disk:
-    #   name: stacks-blockchain-data
-    #   mountPath: /root/stacks-blockchain/data
-    #   sizeGB: 25 # optional
+    disk:
+      name: stacks-blockchain-data
+      mountPath: /root/stacks-blockchain/data
+      sizeGB: 25 # optional
 
   # Private Postgres instance
   - name: testnet-postgres
