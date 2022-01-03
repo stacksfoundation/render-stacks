@@ -84,12 +84,12 @@ services:
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     dockerCommand: /bin/stacks-node start --config /stacks-blockchain/Stacks-testnet.toml
-    # envVars:
-    #   - key: STACKS_API_HOST
-    #     fromService:
-    #       name: testnet-stacks-blockchain-api
-    #       type: pserv
-    #       property: host
+    envVars:
+      - key: STACKS_API_HOST
+        fromService:
+          name: testnet-stacks-blockchain-api
+          type: pserv
+          property: host
     # for testnet, keep the data ephemeral
     disk:
       name: stacks-blockchain-data
