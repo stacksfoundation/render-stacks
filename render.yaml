@@ -1,7 +1,7 @@
 services:
   # stacks-blockchain-api instance
-  - type: web
-    name: testnet-stacks-blockchain-api
+  - name: testnet-stacks-blockchain-api
+    type: web
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
@@ -74,8 +74,8 @@ services:
       #     property: password
 
   # stacks-blockchain instance
-  - type: pserv
-    name: testnet-stacks-blockchain
+  - name: testnet-stacks-blockchain
+    type: pserv
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
@@ -83,7 +83,12 @@ services:
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     dockerCommand: /bin/stacks-node start --config /stacks-blockchain/Stacks-testnet.toml
-
+    envVars:
+      - key: STACKS_API_HOST
+        fromService:
+          name: testnet-stacks-blockchain-api
+          type: web
+          property: host
     # for testnet, keep the data ephemeral
     # disk:
     #   name: stacks-blockchain-data
@@ -91,8 +96,8 @@ services:
     #   sizeGB: 25 # optional
 
   # Private Postgres instance
-  - type: pserv
-    name: testnet-postgres
+  - name: testnet-postgres
+    type: pserv
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
