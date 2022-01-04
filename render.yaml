@@ -1,16 +1,16 @@
 services:
   # stacks-blockchain-api instance
   - name: testnet-stacks-blockchain-api
-    type: pserv
+    type: web
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
     branch: testnet-render 
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
-    dockerCommand: npm run start
+    dockerCommand: nginx && npm run start
     # healthCheckPath: /extended/v1/status
-    # healthCheckPath: /
+    healthCheckPath: /status
     envVars:
       - key: PG_HOST
         fromService:
@@ -84,12 +84,13 @@ services:
     branch: testnet-render
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
-    dockerCommand: /bin/stacks-node start --config /stacks-blockchain/Stacks-testnet.toml
+    dockerCommand: /usr/sbin/nginx && /bin/stacks-node start --config /stacks-blockchain/Stacks-testnet.toml
+    healthCheckPath: /status
     envVars:
       - key: STACKS_API_HOST
         fromService:
           name: testnet-stacks-blockchain-api
-          type: pserv
+          type: web
           property: host
     # for testnet, keep the data ephemeral
     disk:
