@@ -84,7 +84,7 @@ services:
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     # dockerCommand: start testnet
-    healthCheckPath: /status
+    # healthCheckPath: /status
     envVars:
       - key: STACKS_API_HOST
         fromService:
