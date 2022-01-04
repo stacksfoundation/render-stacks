@@ -8,8 +8,7 @@ services:
     branch: testnet-render 
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
-    dockerCommand: sh -c "nginx; npm run start"
-    # healthCheckPath: /extended/v1/status
+    # dockerCommand: /start
     healthCheckPath: /status
     envVars:
       - key: PG_HOST
@@ -84,7 +83,7 @@ services:
     branch: testnet-render
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
-    dockerCommand: sh -c "nginx; /bin/stacks-node start --config /stacks-blockchain/Stacks-testnet.toml"
+    # dockerCommand: start testnet
     # healthCheckPath: /status
     envVars:
       - key: STACKS_API_HOST
@@ -92,6 +91,7 @@ services:
           name: testnet-stacks-blockchain-api
           type: web
           property: host
+      - fromGroup: testnet-settings
     # for testnet, keep the data ephemeral
     disk:
       name: stacks-blockchain-data
@@ -133,6 +133,8 @@ envVarGroups:
         value: 0x80000000
       - key: V2_POX_MIN_AMOUNT_USTX
         value: 90000000260
+      - key: STACKS_NETWORK
+        value: testnet
       # - key: STACKS_EXPORT_EVENTS_FILE
       #   value: /tmp/event-replay/stacks-node-events.tsv
       # - key: BNS_IMPORT_DIR
