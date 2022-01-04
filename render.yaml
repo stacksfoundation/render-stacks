@@ -85,7 +85,7 @@ services:
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     dockerCommand: /usr/sbin/nginx && /bin/stacks-node start --config /stacks-blockchain/Stacks-testnet.toml
-    healthCheckPath: /status
+    # healthCheckPath: /status
     envVars:
       - key: STACKS_API_HOST
         fromService:
