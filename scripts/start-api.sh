@@ -1,3 +1,2 @@
 #!/bin/sh
-nginx
-npm run start
+nginx && npm run start
