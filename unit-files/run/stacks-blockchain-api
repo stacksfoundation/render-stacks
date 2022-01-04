@@ -1,0 +1,16 @@
+#!/bin/sh
+exec 2>&1
+sv start stacks-blockchain || exit 1
+
+case $STACKS_NETWORK in    
+    mainnet)     
+        export STACKS_CHAIN_ID=0x00000001    
+        ;;
+    testnet)
+        export STACKS_CHAIN_ID=0x80000000
+        ;;   
+    *)
+        export STACKS_CHAIN_ID=2147483648
+        ;; 
+esac
+cd /app && exec node ./lib/index.js 2>&1

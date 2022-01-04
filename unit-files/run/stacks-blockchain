@@ -1,0 +1,13 @@
+#!/bin/sh
+exec 2>&1
+case $STACKS_NETWORK in    
+    mainnet)     
+        exec /bin/stacks-node start --config=/stacks-blockchain/Stacks-mainnet.toml 2>&1      
+        ;;
+    testnet)        
+        exec /bin/stacks-node start --config=/stacks-blockchain/Stacks-testnet.toml 2>&1
+        ;;
+    *)
+        exec /bin/stacks-node start --config=/stacks-blockchain/Stacks-mocknet.toml 2>&1  
+        ;;        
+esac
