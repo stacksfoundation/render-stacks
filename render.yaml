@@ -76,7 +76,7 @@ services:
 
   # stacks-blockchain instance
   - name: testnet-stacks-blockchain
-    type: pserv
+    type: web
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
@@ -84,7 +84,7 @@ services:
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     # dockerCommand: start testnet
-    # healthCheckPath: /status
+    healthCheckPath: /status
     envVars:
       - key: STACKS_API_HOST
         fromService:
