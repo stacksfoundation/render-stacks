@@ -1,7 +1,7 @@
 [node]
-rpc_bind = "0.0.0.0:20443"
-p2p_bind = "0.0.0.0:20444"
-bootstrap_node = "04ee0b1602eb18fef7986887a7e8769a30c9df981d33c8380d255edef003abdcd243a0eb74afdf6740e6c423e62aec631519a24cf5b1d62bf8a3e06ddc695dcb77@127.0.0.1:20444"
+rpc_bind = "0.0.0.0:21443"
+p2p_bind = "0.0.0.0:21444"
+bootstrap_node = "04ee0b1602eb18fef7986887a7e8769a30c9df981d33c8380d255edef003abdcd243a0eb74afdf6740e6c423e62aec631519a24cf5b1d62bf8a3e06ddc695dcb77@127.0.0.1:21444"
 wait_time_for_microblocks = 10000
 use_test_genesis_chainstate = true
 

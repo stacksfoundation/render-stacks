@@ -1,7 +1,7 @@
 services:
   # stacks-blockchain-api instance
   - name: testnet-stacks-blockchain-api
-    type: pserv
+    type: web
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
@@ -9,7 +9,7 @@ services:
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     # dockerCommand: /start
-    # healthCheckPath: /status
+    healthCheckPath: /status
     envVars:
       - key: PG_HOST
         fromService:
@@ -32,11 +32,11 @@ services:
       - key: PG_DATABASE
         value: postgres
       - key: STACKS_CORE_EVENT_PORT
-        value: 3700
+        value: 13700
       - key: STACKS_CORE_EVENT_HOST
         value: 0.0.0.0
       - key: STACKS_BLOCKCHAIN_API_PORT
-        value: 3999
+        value: 13999
       - key: STACKS_BLOCKCHAIN_API_HOST
         value: 0.0.0.0
       - key: STACKS_BLOCKCHAIN_API_DB
@@ -76,7 +76,7 @@ services:
 
   # stacks-blockchain instance
   - name: testnet-stacks-blockchain
-    type: pserv
+    type: web
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
@@ -84,12 +84,12 @@ services:
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     # dockerCommand: start testnet
-    # healthCheckPath: /status
+    healthCheckPath: /status
     envVars:
       - key: STACKS_API_HOST
         fromService:
           name: testnet-stacks-blockchain-api
-          type: pserv
+          type: web
           property: host
       - fromGroup: testnet-settings
     # for testnet, keep the data ephemeral
