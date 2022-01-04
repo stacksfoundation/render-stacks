@@ -1,12 +1,12 @@
 services:
   # stacks-blockchain-api instance
-  - name: testnet-stacks-blockchain-api
+  - name: testnet-stacks-blockchain
     type: web
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
     branch: testnet-render 
-    dockerfilePath: stacks-blockchain-api.Dockerfile
+    dockerfilePath: standalone.Dockerfile
     dockerContext: .
     # dockerCommand: /start
     healthCheckPath: /status
@@ -18,10 +18,6 @@ services:
           property: host
       - key: PG_PORT
         value: 5432
-        # fromService:
-        #   name: testnet-postgres
-        #   type: pserv
-        #   property: port
       - key: PG_USER
         value: postgres
       - key: PG_PASSWORD
@@ -32,17 +28,17 @@ services:
       - key: PG_DATABASE
         value: postgres
       - key: STACKS_CORE_EVENT_PORT
-        value: 13700
+        value: 3700
       - key: STACKS_CORE_EVENT_HOST
         value: 0.0.0.0
       - key: STACKS_BLOCKCHAIN_API_PORT
-        value: 13999
+        value: 3999
       - key: STACKS_BLOCKCHAIN_API_HOST
         value: 0.0.0.0
       - key: STACKS_BLOCKCHAIN_API_DB
         value: pg
       - key: STACKS_CORE_RPC_HOST
-        value: testnet-stacks-blockchain
+        value: localhost
         # fromService:
         #   name: testnet-stacks-blockchain
         #   type: pserv
@@ -73,30 +69,34 @@ services:
       #   fromDatabase:
       #     name: testnet-postgres
       #     property: password
-
-  # stacks-blockchain instance
-  - name: testnet-stacks-blockchain
-    type: web
-    env: docker
-    region: oregon # optional (defaults to oregon)
-    plan: standard # optional (defaults to starter)
-    branch: testnet-render
-    dockerfilePath: stacks-blockchain.Dockerfile
-    dockerContext: .
-    # dockerCommand: start testnet
-    healthCheckPath: /status
-    envVars:
-      - key: STACKS_API_HOST
-        fromService:
-          name: testnet-stacks-blockchain-api
-          type: web
-          property: host
-      - fromGroup: testnet-settings
-    # for testnet, keep the data ephemeral
     disk:
       name: stacks-blockchain-data
       mountPath: /root/stacks-blockchain/data
       sizeGB: 25 # optional
+
+  # # stacks-blockchain instance
+  # - name: testnet-stacks-blockchain
+  #   type: web
+  #   env: docker
+  #   region: oregon # optional (defaults to oregon)
+  #   plan: standard # optional (defaults to starter)
+  #   branch: testnet-render
+  #   dockerfilePath: stacks-blockchain.Dockerfile
+  #   dockerContext: .
+  #   # dockerCommand: start testnet
+  #   healthCheckPath: /status
+  #   envVars:
+  #     - key: STACKS_API_HOST
+  #       fromService:
+  #         name: testnet-stacks-blockchain-api
+  #         type: web
+  #         property: host
+  #     - fromGroup: testnet-settings
+  #   # for testnet, keep the data ephemeral
+  #   disk:
+  #     name: stacks-blockchain-data
+  #     mountPath: /root/stacks-blockchain/data
+  #     sizeGB: 25 # optional
 
   # Private Postgres instance
   - name: testnet-postgres
