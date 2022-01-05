@@ -69,10 +69,6 @@ services:
       name: stacks-blockchain-data
       mountPath: /root/stacks-blockchain/data
       sizeGB: 25 # optional
-    disk:
-      name: event-replay-data
-      mountPath: /tmp/event-replay
-      sizeGB: 5 # optional
 
   # Private Postgres instance
   - name: mainnet-postgres
@@ -112,7 +108,7 @@ envVarGroups:
       - key: STACKS_NETWORK
         value: mainnet
       - key: STACKS_EXPORT_EVENTS_FILE
-        value: /tmp/event-replay/stacks-node-events.tsv
+        value: /root/stacks-blockchain/stacks-node-events.tsv
       # - key: BNS_IMPORT_DIR
       #   value: /bns-data
 
