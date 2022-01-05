@@ -71,7 +71,7 @@ services:
       sizeGB: 25 # optional
     disk:
       name: event-replay-data
-      mountPath: /root/stacks-blockchain/data
+      mountPath: /tmp/event-replay
       sizeGB: 5 # optional
 
   # Private Postgres instance
