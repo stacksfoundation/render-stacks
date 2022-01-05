@@ -68,7 +68,7 @@ services:
     disk:
       name: stacks-blockchain-data
       mountPath: /root/stacks-blockchain/data
-      sizeGB: 25 # optional
+      sizeGB: 50 # optional
 
   # Private Postgres instance
   - name: mainnet-postgres
