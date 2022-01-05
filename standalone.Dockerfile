@@ -36,6 +36,7 @@ RUN apk add \
     runit
 RUN mkdir -p \
     /root/stacks-blockchain/data \
+    /tmp/event-replay \
     ${STACKS_SVC_DIR}/stacks-blockchain \
     ${STACKS_SVC_DIR}/stacks-blockchain-api \
     ${STACKS_SVC_DIR}/stacks-blockchain-api/log \

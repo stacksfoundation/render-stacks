@@ -27,27 +27,8 @@ services:
           envVarKey: POSTGRES_PASSWORD
       - key: PG_DATABASE
         value: postgres
-      - key: STACKS_CORE_EVENT_PORT
-        value: 3700
-      - key: STACKS_CORE_EVENT_HOST
-        value: 0.0.0.0
-      - key: STACKS_BLOCKCHAIN_API_PORT
-        value: 3999
-      - key: STACKS_BLOCKCHAIN_API_HOST
-        value: 0.0.0.0
-      - key: STACKS_BLOCKCHAIN_API_DB
-        value: pg
-      - key: STACKS_CORE_RPC_HOST
-        value: localhost
-        # fromService:
-        #   name: mainnet-stacks-blockchain
-        #   type: pserv
-        #   property: host
-      - key: STACKS_CORE_RPC_PORT
-        value: 20443
-      - fromGroup: mainnet-settings
       ##
-      ##  To use manageded DB connection settings
+      ##  To use manageded DB connection settings - higher priced plans would be required (at a minimum $20 per month/db)
       ## 
       # - key: PG_HOST
       #   fromDatabase:
@@ -69,34 +50,29 @@ services:
       #   fromDatabase:
       #     name: mainnet-postgres
       #     property: password
+      - key: STACKS_CORE_EVENT_PORT
+        value: 3700
+      - key: STACKS_CORE_EVENT_HOST
+        value: 0.0.0.0
+      - key: STACKS_BLOCKCHAIN_API_PORT
+        value: 3999
+      - key: STACKS_BLOCKCHAIN_API_HOST
+        value: 0.0.0.0
+      - key: STACKS_BLOCKCHAIN_API_DB
+        value: pg
+      - key: STACKS_CORE_RPC_HOST
+        value: localhost
+      - key: STACKS_CORE_RPC_PORT
+        value: 20443
+      - fromGroup: mainnet-settings
     disk:
       name: stacks-blockchain-data
       mountPath: /root/stacks-blockchain/data
       sizeGB: 25 # optional
-
-  # # stacks-blockchain instance
-  # - name: mainnet-stacks-blockchain
-  #   type: web
-  #   env: docker
-  #   region: oregon # optional (defaults to oregon)
-  #   plan: standard # optional (defaults to starter)
-  #   branch: mainnet-render
-  #   dockerfilePath: stacks-blockchain.Dockerfile
-  #   dockerContext: .
-  #   # dockerCommand: start mainnet
-  #   healthCheckPath: /status
-  #   envVars:
-  #     - key: STACKS_API_HOST
-  #       fromService:
-  #         name: mainnet-stacks-blockchain-api
-  #         type: web
-  #         property: host
-  #     - fromGroup: mainnet-settings
-  #   # for mainnet, keep the data ephemeral
-  #   disk:
-  #     name: stacks-blockchain-data
-  #     mountPath: /root/stacks-blockchain/data
-  #     sizeGB: 25 # optional
+    disk:
+      name: event-replay-data
+      mountPath: /root/stacks-blockchain/data
+      sizeGB: 25 # optional
 
   # Private Postgres instance
   - name: mainnet-postgres
@@ -110,10 +86,10 @@ services:
       - key: POSTGRES_PASSWORD
         generateValue: true # will generate a base64-encoded 256-bit secret
     # for mainnet, keep the data ephemeral
-    # disk:
-    #   name: postgres-data
-    #   mountPath: /var/lib/postgresql/data
-    #   sizeGB: 10 # optional
+    disk:
+      name: postgres-data
+      mountPath: /var/lib/postgresql/data
+      sizeGB: 10 # optional
 
 # Managed postgres instance
 # databases:
@@ -135,8 +111,8 @@ envVarGroups:
         value: 90000000260
       - key: STACKS_NETWORK
         value: mainnet
-      # - key: STACKS_EXPORT_EVENTS_FILE
-      #   value: /tmp/event-replay/stacks-node-events.tsv
+      - key: STACKS_EXPORT_EVENTS_FILE
+        value: /tmp/event-replay/stacks-node-events.tsv
       # - key: BNS_IMPORT_DIR
       #   value: /bns-data
 
