@@ -36,24 +36,30 @@ RUN apk add \
     runit
 RUN mkdir -p \
     /root/stacks-blockchain/data \
-    ${STACKS_SVC_DIR}/stacks-blockchain-api \
     ${STACKS_SVC_DIR}/stacks-blockchain \
+    ${STACKS_SVC_DIR}/stacks-blockchain-api \
+    ${STACKS_SVC_DIR}/stacks-blockchain-api/log \
     ${STACKS_SVC_DIR}/nginx \
-    ${STACKS_LOG_DIR}/stacks-blockchain-api/log \
-    ${STACKS_LOG_DIR}/nginx/log
-# ${STACKS_SVC_DIR}/stacks-blockchain-api/log \
-# ${STACKS_SVC_DIR}/nginx/log \
+    ${STACKS_SVC_DIR}/nginx/log \
+    ${LOG_DIR}/stacks-blockchain-api/log \
+    ${LOG_DIR}/nginx/log
+
 
 COPY configs/nginx.conf /etc/nginx/http.d/default.conf 
 COPY configs/Stacks-*.toml /stacks-blockchain/
-COPY unit-files/run/nginx ${STACKS_SVC_DIR}/nginx/run
 COPY unit-files/run/stacks-blockchain ${STACKS_SVC_DIR}/stacks-blockchain/run
 COPY unit-files/run/stacks-blockchain-api ${STACKS_SVC_DIR}/stacks-blockchain-api/run
+COPY unit-files/log/stacks-blockchain-api ${STACKS_SVC_DIR}/stacks-blockchain-api/log/run
+COPY unit-files/run/nginx ${STACKS_SVC_DIR}/nginx/run
+COPY unit-files/log/nginx ${STACKS_SVC_DIR}/nginx/log/run
 COPY scripts/entrypoint.sh /docker-entrypoint.sh
+
 RUN chmod 755 \
     /docker-entrypoint.sh \
     ${STACKS_SVC_DIR}/stacks-blockchain-api/run \
+    ${STACKS_SVC_DIR}/stacks-blockchain-api/log/run \
     ${STACKS_SVC_DIR}/stacks-blockchain/run \
-    ${STACKS_SVC_DIR}/nginx/run
+    ${STACKS_SVC_DIR}/nginx/run \
+    ${STACKS_SVC_DIR}/nginx/log/run
 
 CMD /docker-entrypoint.sh
