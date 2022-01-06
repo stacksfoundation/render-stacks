@@ -1,55 +1,55 @@
 services:
   # stacks-blockchain-api instance
-  - name: mainnet-stacks-blockchain
+  - name: managed-mainnet-stacks-blockchain
     type: web
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
-    branch: mainnet-render 
+    branch: managed-mainnet-render 
     dockerfilePath: standalone.Dockerfile
     dockerContext: .
     # dockerCommand: /start
     healthCheckPath: /status
     envVars:
-      - key: PG_HOST
-        fromService:
-          name: mainnet-postgres
-          type: pserv
-          property: host
-      - key: PG_PORT
-        value: 5432
-      - key: PG_USER
-        value: postgres
-      - key: PG_PASSWORD
-        fromService:
-          type: pserv
-          name: mainnet-postgres
-          envVarKey: POSTGRES_PASSWORD
-      - key: PG_DATABASE
-        value: postgres
-      ##
-      ##  To use manageded DB connection settings - higher priced plans would be required (at a minimum $20 per month/db)
-      ## 
+      # # containerized postgres DB settings
       # - key: PG_HOST
-      #   fromDatabase:
-      #     name: mainnet-postgres
+      #   fromService:
+      #     name: managed-mainnet-postgres
+      #     type: pserv
       #     property: host
       # - key: PG_PORT
-      #   fromDatabase:
-      #     name: mainnet-postgres
-      #     property: port
-      # - key: PG_DATABASE
-      #   fromDatabase:
-      #     name: mainnet-postgres
-      #     property: database
+      #   value: 5432
       # - key: PG_USER
-      #   fromDatabase:
-      #     name: mainnet-postgres
-      #     property: user
+      #   value: postgres
       # - key: PG_PASSWORD
-      #   fromDatabase:
-      #     name: mainnet-postgres
-      #     property: password
+      #   fromService:
+      #     type: pserv
+      #     name: managed-mainnet-postgres
+      #     envVarKey: POSTGRES_PASSWORD
+      # - key: PG_DATABASE
+      #   value: postgres
+      # # 
+      # #  To use manageded DB connection settings - higher priced plans would be required (at a minimum $20 per month/db)
+      - key: PG_HOST
+        fromDatabase:
+          name: managed-mainnet-postgres
+          property: host
+      - key: PG_PORT
+        fromDatabase:
+          name: managed-mainnet-postgres
+          property: port
+      - key: PG_DATABASE
+        fromDatabase:
+          name: managed-mainnet-postgres
+          property: database
+      - key: PG_USER
+        fromDatabase:
+          name: managed-mainnet-postgres
+          property: user
+      - key: PG_PASSWORD
+        fromDatabase:
+          name: managed-mainnet-postgres
+          property: password
       - key: STACKS_CORE_EVENT_PORT
         value: 3700
       - key: STACKS_CORE_EVENT_HOST
@@ -64,38 +64,38 @@ services:
         value: localhost
       - key: STACKS_CORE_RPC_PORT
         value: 20443
-      - fromGroup: mainnet-settings
+      - fromGroup: managed-mainnet-settings
     disk:
       name: stacks-blockchain-data
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 # optional
 
-  # Private Postgres instance
-  - name: mainnet-postgres
-    type: pserv
-    env: docker
-    region: oregon # optional (defaults to oregon)
-    plan: standard # optional (defaults to starter)
-    branch: mainnet-render
-    dockerfilePath: postgres.Dockerfile
-    envVars:
-      - key: POSTGRES_PASSWORD
-        generateValue: true # will generate a base64-encoded 256-bit secret
-    # for mainnet, keep the data ephemeral
-    disk:
-      name: postgres-data
-      mountPath: /var/lib/postgresql/data
-      sizeGB: 10 # optional
+  # # Private Postgres instance
+  # - name: managed-mainnet-postgres
+  #   type: pserv
+  #   env: docker
+  #   region: oregon # optional (defaults to oregon)
+  #   plan: standard # optional (defaults to starter)
+  #   branch: managed-mainnet-render
+  #   dockerfilePath: postgres.Dockerfile
+  #   envVars:
+  #     - key: POSTGRES_PASSWORD
+  #       generateValue: true # will generate a base64-encoded 256-bit secret
+  #   # for managed-mainnet, keep the data ephemeral
+  #   disk:
+  #     name: postgres-data
+  #     mountPath: /var/lib/postgresql/data
+  #     sizeGB: 10 # optional
 
-# Managed postgres instance
-# databases:
-#   - name: mainnet-postgres
-#     databaseName: mainnet # optional (Render may add a suffix)
-#     user: mainnet # optional
-#     ipAllowList: []
+# # Managed postgres instance
+databases:
+  - name: managed-mainnet-postgres
+    databaseName: managed-mainnet # optional (Render may add a suffix)
+    user: managed-mainnet # optional
+    ipAllowList: []
 
 envVarGroups:
-  - name: mainnet-settings
+  - name: managed-mainnet-settings
     envVars:
       - key: NODE_ENV
         value: production
@@ -106,7 +106,7 @@ envVarGroups:
       - key: V2_POX_MIN_AMOUNT_USTX
         value: 90000000260
       - key: STACKS_NETWORK
-        value: mainnet
+        value: managed-mainnet
       - key: STACKS_EXPORT_EVENTS_FILE
         value: /root/stacks-blockchain/stacks-node-events.tsv
       # - key: BNS_IMPORT_DIR
