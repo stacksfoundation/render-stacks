@@ -107,7 +107,7 @@ envVarGroups:
       - key: V2_POX_MIN_AMOUNT_USTX
         value: 90000000260
       - key: STACKS_NETWORK
-        value: managed-mainnet
+        value: mainnet
       - key: STACKS_EXPORT_EVENTS_FILE
         value: /root/stacks-blockchain/stacks-node-events.tsv
       # - key: BNS_IMPORT_DIR
