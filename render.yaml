@@ -90,8 +90,8 @@ services:
 # # Managed postgres instance
 databases:
   - name: managed-mainnet-postgres
-    databaseName: managed-mainnet # optional (Render may add a suffix)
-    user: managed-mainnet # optional
+    databaseName: mainnet # optional (Render may add a suffix)
+    user: mainnet # optional
     ipAllowList: []
 
 envVarGroups:
