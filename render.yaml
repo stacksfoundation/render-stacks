@@ -5,7 +5,7 @@ services:
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
-    branch: managed-mainnet-render 
+    branch: master
     dockerfilePath: standalone.Dockerfile
     dockerContext: .
     # dockerCommand: /start
