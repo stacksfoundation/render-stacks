@@ -10,6 +10,7 @@ services:
     dockerContext: .
     # dockerCommand: /start
     healthCheckPath: /status
+    autoDeploy: false # optional
     envVars:
       # # containerized postgres DB settings
       # - key: PG_HOST
