@@ -11,7 +11,7 @@
 FROM alpine
 ARG STACKS_SVC_DIR=/etc/service
 COPY configs/nginx.conf /etc/nginx/http.d/default.conf
-COPY scripts/nginx.sh /docker-entrypoint.sh
+COPY scripts/entrypoint.sh /docker-entrypoint.sh
 COPY unit-files/run/nginx ${STACKS_SVC_DIR}/nginx/run
 
 RUN apk add \
