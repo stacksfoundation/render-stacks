@@ -51,9 +51,9 @@ services:
         value: 20443
       - fromGroup: mainnet2-settings
     disk:
-      name: stacks-blockchain-data
+      name: mainnet2-api-vent-replay
       mountPath: /root/stacks-blockchain/data
-      sizeGB: 50 # optional
+      sizeGB: 10
 
   - name: mainnet2-stacks-blockchain
     type: web
@@ -68,6 +68,10 @@ services:
     autoDeploy: false # optional
     envVars:
       - fromGroup: mainnet2-settings
+    disk:
+      name: mainnet2-stacks-blockchain
+      mountPath: /root/stacks-blockchain/data
+      sizeGB: 50 
 
   # # Private Postgres instance
   # - name: mainnet2-postgres
