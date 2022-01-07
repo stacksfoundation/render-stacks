@@ -1,55 +1,36 @@
 services:
   # stacks-blockchain-api instance
-  - name: managed-mainnet-stacks-blockchain
+  - name: mainnet2-stacks-blockchain-api
     type: web
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
-    branch: master
-    dockerfilePath: standalone.Dockerfile
+    branch: testing
+    dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     # dockerCommand: /start
     healthCheckPath: /status
     autoDeploy: false # optional
     envVars:
-      # # containerized postgres DB settings
-      # - key: PG_HOST
-      #   fromService:
-      #     name: managed-mainnet-postgres
-      #     type: pserv
-      #     property: host
-      # - key: PG_PORT
-      #   value: 5432
-      # - key: PG_USER
-      #   value: postgres
-      # - key: PG_PASSWORD
-      #   fromService:
-      #     type: pserv
-      #     name: managed-mainnet-postgres
-      #     envVarKey: POSTGRES_PASSWORD
-      # - key: PG_DATABASE
-      #   value: postgres
-      # # 
-      # #  To use manageded DB connection settings - higher priced plans would be required (at a minimum $20 per month/db)
       - key: PG_HOST
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet2-postgres
           property: host
       - key: PG_PORT
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet2-postgres
           property: port
       - key: PG_DATABASE
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet2-postgres
           property: database
       - key: PG_USER
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet2-postgres
           property: user
       - key: PG_PASSWORD
         fromDatabase:
-          name: managed-mainnet-postgres
+          name: mainnet2-postgres
           property: password
       - key: STACKS_CORE_EVENT_PORT
         value: 3700
@@ -62,27 +43,44 @@ services:
       - key: STACKS_BLOCKCHAIN_API_DB
         value: pg
       - key: STACKS_CORE_RPC_HOST
-        value: localhost
+        fromService:
+          name: mainnet2-stacks-blockchain
+          type: pserv
+          property: host
       - key: STACKS_CORE_RPC_PORT
         value: 20443
-      - fromGroup: managed-mainnet-settings
+      - fromGroup: mainnet2-settings
     disk:
       name: stacks-blockchain-data
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 # optional
 
+  - name: mainnet2-stacks-blockchain
+    type: web
+    env: docker
+    region: oregon # optional (defaults to oregon)
+    plan: standard # optional (defaults to starter)
+    branch: testing
+    dockerfilePath: stacks-blockchain.Dockerfile
+    dockerContext: .
+    # dockerCommand: /start
+    healthCheckPath: /status
+    autoDeploy: false # optional
+    envVars:
+      - fromGroup: mainnet2-settings
+
   # # Private Postgres instance
-  # - name: managed-mainnet-postgres
+  # - name: mainnet2-postgres
   #   type: pserv
   #   env: docker
   #   region: oregon # optional (defaults to oregon)
   #   plan: standard # optional (defaults to starter)
-  #   branch: managed-mainnet-render
+  #   branch: mainnet2-render
   #   dockerfilePath: postgres.Dockerfile
   #   envVars:
   #     - key: POSTGRES_PASSWORD
   #       generateValue: true # will generate a base64-encoded 256-bit secret
-  #   # for managed-mainnet, keep the data ephemeral
+  #   # for mainnet2, keep the data ephemeral
   #   disk:
   #     name: postgres-data
   #     mountPath: /var/lib/postgresql/data
@@ -90,14 +88,14 @@ services:
 
 # # Managed postgres instance
 databases:
-  - name: managed-mainnet-postgres
+  - name: mainnet2-postgres
     plan: standard # optional (defaults to starter)
     databaseName: mainnet # optional (Render may add a suffix)
     user: mainnet # optional
-    ipAllowList: []
+    # ipAllowList: []
 
 envVarGroups:
-  - name: managed-mainnet-settings
+  - name: mainnet2-settings
     envVars:
       - key: NODE_ENV
         value: production
