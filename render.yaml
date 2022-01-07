@@ -94,7 +94,7 @@ databases:
     plan: standard # optional (defaults to starter)
     databaseName: mainnet # optional (Render may add a suffix)
     user: mainnet # optional
-    ipAllowList: []
+    # ipAllowList: []
 
 envVarGroups:
   - name: managed-mainnet-settings
