@@ -1,7 +1,7 @@
 services:
   # stacks-blockchain-api instance
   - name: mainnet2-stacks-blockchain-api
-    type: web
+    type: pserv
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
@@ -53,7 +53,7 @@ services:
       sizeGB: 25
 
   - name: mainnet2-stacks-blockchain
-    type: web
+    type: pserv
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
@@ -67,7 +67,7 @@ services:
       - key: STACKS_API_HOST
         fromService:
           name: mainnet2-stacks-blockchain-api
-          type: web
+          type: pserv
           property: host
       - fromGroup: mainnet2-settings
     disk:
