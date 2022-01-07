@@ -92,9 +92,6 @@ services:
 databases:
   - name: managed-mainnet-postgres
     plan: standard # optional (defaults to starter)
-    databaseName: mainnet # optional (Render may add a suffix)
-    user: mainnet # optional
-    # ipAllowList: []
 
 envVarGroups:
   - name: managed-mainnet-settings
