@@ -84,7 +84,7 @@ services:
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
     healthCheckPath: /status
-    autoDeploy: false # optional
+    autoDeploy: true # optional
     envVars:
       - key: API_SERVICE_NAME
         fromService:
