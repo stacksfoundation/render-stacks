@@ -9,7 +9,7 @@ services:
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     # dockerCommand: /start
-    # healthCheckPath: /status
+    healthCheckPath: /status
     autoDeploy: false # optional
     envVars:
       - key: PG_HOST
@@ -61,7 +61,7 @@ services:
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     # dockerCommand: /start
-    # healthCheckPath: /status
+    healthCheckPath: /status
     autoDeploy: false # optional
     envVars:
       # - key: STACKS_API_HOST
