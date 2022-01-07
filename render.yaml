@@ -75,6 +75,23 @@ services:
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 
 
+  - name: mainnet2-stacks-blockchain
+    type: pserv
+    env: docker
+    region: oregon # optional (defaults to oregon)
+    plan: standard # optional (defaults to starter)
+    branch: testing
+    dockerfilePath: nginx.Dockerfile
+    dockerContext: .
+    healthCheckPath: /status
+    autoDeploy: false # optional
+    envVars:
+      - key: API_SERVICE_NAME
+        fromService:
+          name: mainnet2-stacks-blockchain-api
+          type: pserv
+          property: host
+
 # # Managed postgres instance
 databases:
   - name: mainnet2-postgres
