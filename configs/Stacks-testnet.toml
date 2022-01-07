@@ -14,7 +14,7 @@ rpc_port = 18332
 peer_port = 18333
 
 [[events_observer]]
-endpoint = "localhost:3700"
+endpoint = "stacks-blockchain-api:3700"
 retry_count = 255
 events_keys = ["*"]
 

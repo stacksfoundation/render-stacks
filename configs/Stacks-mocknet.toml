@@ -9,9 +9,8 @@ use_test_genesis_chainstate = true
 chain = "bitcoin"
 mode = "mocknet"
 
-# Used for sending events to a local stacks-blockchain-api service
 [[events_observer]]
-endpoint = "localhost:3700"
+endpoint = "stacks-blockchain-api:3700"
 retry_count = 255
 events_keys = ["*"]
 

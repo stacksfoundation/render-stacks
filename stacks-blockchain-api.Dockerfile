@@ -38,9 +38,11 @@ COPY unit-files/run/stacks-blockchain-api ${STACKS_SVC_DIR}/stacks-blockchain-ap
 COPY unit-files/run/nginx ${STACKS_SVC_DIR}/nginx/run
 COPY unit-files/log/nginx ${STACKS_SVC_DIR}/nginx/log/run
 COPY scripts/entrypoint.sh /docker-entrypoint.sh
+COPY scripts/setup-bns.sh /setup-bns.sh
 
 RUN chmod 755 \
     /docker-entrypoint.sh \
+    /setup-bns.sh \
     ${STACKS_SVC_DIR}/stacks-blockchain-api/run \
     ${STACKS_SVC_DIR}/nginx/run \
     ${STACKS_SVC_DIR}/nginx/log/run

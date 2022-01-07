@@ -43,17 +43,14 @@ services:
       - key: STACKS_BLOCKCHAIN_API_DB
         value: pg
       - key: STACKS_CORE_RPC_HOST
-        fromService:
-          name: mainnet2-stacks-blockchain
-          type: pserv
-          property: host
+        value: mainnet2-stacks-blockchain
       - key: STACKS_CORE_RPC_PORT
         value: 20443
       - fromGroup: mainnet2-settings
     disk:
-      name: mainnet2-api-vent-replay
+      name: mainnet2-api-event-replay
       mountPath: /root/stacks-blockchain/data
-      sizeGB: 10
+      sizeGB: 25
 
   - name: mainnet2-stacks-blockchain
     type: web
@@ -67,36 +64,21 @@ services:
     healthCheckPath: /status
     autoDeploy: false # optional
     envVars:
+      - key: STACKS_API_HOST
+        fromService:
+          name: mainnet2-stacks-blockchain-api
+          type: web
+          property: host
       - fromGroup: mainnet2-settings
     disk:
       name: mainnet2-stacks-blockchain
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 
 
-  # # Private Postgres instance
-  # - name: mainnet2-postgres
-  #   type: pserv
-  #   env: docker
-  #   region: oregon # optional (defaults to oregon)
-  #   plan: standard # optional (defaults to starter)
-  #   branch: mainnet2-render
-  #   dockerfilePath: postgres.Dockerfile
-  #   envVars:
-  #     - key: POSTGRES_PASSWORD
-  #       generateValue: true # will generate a base64-encoded 256-bit secret
-  #   # for mainnet2, keep the data ephemeral
-  #   disk:
-  #     name: postgres-data
-  #     mountPath: /var/lib/postgresql/data
-  #     sizeGB: 10 # optional
-
 # # Managed postgres instance
 databases:
   - name: mainnet2-postgres
-    plan: standard # optional (defaults to starter)
-    databaseName: mainnet # optional (Render may add a suffix)
-    user: mainnet # optional
-    # ipAllowList: []
+    plan: standard
 
 envVarGroups:
   - name: mainnet2-settings
@@ -113,7 +95,5 @@ envVarGroups:
         value: mainnet
       - key: STACKS_EXPORT_EVENTS_FILE
         value: /root/stacks-blockchain/stacks-node-events.tsv
-      # - key: BNS_IMPORT_DIR
-      #   value: /bns-data
 
  

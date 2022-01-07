@@ -1,6 +1,11 @@
 #!/bin/sh
 exec 2>&1
-sv start stacks-blockchain || exit 1
+
+if [ ! -z "${BNS_IMPORT_DIR}" ]; then
+    if [ ! -f "${BNS_IMPORT_DIR}/imported" ]; then
+        /setup-bns.sh
+    fi
+fi
 
 case $STACKS_NETWORK in    
     mainnet)     
