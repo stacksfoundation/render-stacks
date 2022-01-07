@@ -75,8 +75,8 @@ services:
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 
 
-  - name: mainnet2-stacks-blockchain
-    type: pserv
+  - name: mainnet2-nginx
+    type: web
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
