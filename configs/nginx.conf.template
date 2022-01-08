@@ -1,27 +1,27 @@
-upstream stacks-blockchain-api-http {
-  # least_conn;
-  # server $SERVICE_FQDN:3999; max_fails=3;
-  # server $SERVICE_FQDN:$SERVICE_PORT;
-  server $SERVICE_FQDN:$SERVICE_PORT;
+upstream api {
+    server $SERVICE_FQDN:$SERVICE_PORT;
 }
 
 resolver $NAMESERVER valid=10s;
 
 server {
-  listen 80;
-  listen [::]:80;
-  server_name localhost;
-  access_log /dev/stdout;
-  error_log /dev/stdout;
+    listen       80;
+    listen  [::]:80;
+    server_name  localhost;
 
-  location /status {
-    default_type text/plain;
-    return 200 OK;
-  }
+    location /status {
+        default_type text/plain;
+        return 200 OK;
+    }
 
-  location / {
-    add_header Access-Control-Allow-Origin *;
-    proxy_pass http://stacks-blockchain-api-http/;
-    break;
-  }
+    location / {
+        add_header Access-Control-Allow-Origin *;
+        proxy_pass http://api/;
+        break;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
 }
