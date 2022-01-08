@@ -87,6 +87,7 @@ services:
           name: mainnet2-stacks-blockchain-api
           type: pserv
           property: host
+      - fromGroup: mainnet2-settings
 
 # # Managed postgres instance
 databases:
