@@ -41,7 +41,7 @@ services:
       - key: STACKS_CORE_RPC_HOST
         value: mainnet2-stacks-blockchain
       - key: STACKS_CORE_RPC_PORT
-        value: 20443
+        value: 80
       - fromGroup: mainnet2-settings
     disk:
       name: mainnet2-api-event-replay
