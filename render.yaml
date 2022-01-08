@@ -32,12 +32,8 @@ services:
         fromDatabase:
           name: mainnet2-postgres
           property: password
-      - key: STACKS_CORE_EVENT_PORT
-        value: 3700
       - key: STACKS_CORE_EVENT_HOST
         value: 0.0.0.0
-      - key: STACKS_BLOCKCHAIN_API_PORT
-        value: 3999
       - key: STACKS_BLOCKCHAIN_API_HOST
         value: 0.0.0.0
       - key: STACKS_BLOCKCHAIN_API_DB
@@ -86,7 +82,7 @@ services:
     healthCheckPath: /status
     autoDeploy: true # optional
     envVars:
-      - key: API_SERVICE_NAME
+      - key: SERVICE_NAME
         fromService:
           name: mainnet2-stacks-blockchain-api
           type: pserv
@@ -112,5 +108,7 @@ envVarGroups:
         value: mainnet
       - key: STACKS_EXPORT_EVENTS_FILE
         value: /root/stacks-blockchain/stacks-node-events.tsv
-
- 
+      - key: STACKS_CORE_EVENT_PORT
+        value: 3700
+      - key: STACKS_BLOCKCHAIN_API_PORT
+        value: 3999
