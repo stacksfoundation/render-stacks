@@ -79,7 +79,7 @@ services:
     branch: testing
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
-    healthCheckPath: /
+    healthCheckPath: /status
     autoDeploy: true # optional
     envVars:
       - key: STACKS_BLOCKCHAIN_API_HOST
