@@ -3,8 +3,7 @@ FROM nginx:alpine
 # COPY scripts/nginx.sh /entrypoint.sh
 # RUN chmod 755 /entrypoint.sh
 
-# ENTRYPOINT [ "/entrypoint.sh" ]
-CMD ["/entrypoint.sh", "nginx", "-g", "daemon off;"]
+# CMD ["/entrypoint.sh", "nginx", "-g", "daemon off;"]
 
 # FROM alpine
 # ARG STACKS_SVC_DIR=/etc/service
