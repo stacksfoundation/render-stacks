@@ -33,12 +33,14 @@ else
     echo >&3 "$0: No files found in /docker-entrypoint.d/, skipping configuration"
 fi
 echo "Starting Nginx"
-nginx
+nginx &
 echo "Waiting for the API to come up"
 # wait for api to respond on 3999, then update config and reload
-until nc -vz $STACKS_BLOCKCHAIN_API_HOST $STACKS_BLOCKCHAIN_API_PORT; do
-    echo "Waiting for $STACKS_BLOCKCHAIN_API_HOST:$STACKS_BLOCKCHAIN_API_PORT"
+COUNTER=0
+until nc -vz $STACKS_BLOCKCHAIN_API_HOST $STACKS_BLOCKCHAIN_API_PORT >/dev/null 2>&1; do
+    COUNTER=$((COUNTER+1))
+    echo "$COUNTER) Waiting for $STACKS_BLOCKCHAIN_API_HOST:$STACKS_BLOCKCHAIN_API_PORT"
     sleep 30
 done
 cp /srv/nginx-default.conf /etc/nginx/templates/default.conf.template
-nginx -s reload -g 'daemon off;'
+nginx -s reload -g "daemon off;"
