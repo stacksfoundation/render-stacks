@@ -2,8 +2,15 @@
 export SERVICE_NAME=$(nslookup $STACKS_BLOCKCHAIN_API_HOST | grep Name | awk '{print $2}')
 export SERVICE_PORT=$STACKS_BLOCKCHAIN_API_PORT
 export NAMESERVER=$(cat /etc/resolv.conf | grep "nameserver" | head -n1 | awk '{print $2}')
-
 /docker-entrypoint.sh "$@"
+sleep 10
+if [ -f "/tmp/default.conf" ]; then
+    sed -i -e "s|\$SERVICE_NAME|$SERVICE_NAME|g" /tmp/default.conf
+    sed -i -e "s|\$SERVICE_PORT|$SERVICE_PORT|g" /tmp/default.conf
+    sed -i -e "s|\$NAMESERVER|$NAMESERVER|g" /tmp/default.conf
+    mv /tmp/default.conf /etc/nginx/conf.d/default.conf
+fi
+nginx -s reload
 
 
 # echo "Checking for env var API_SERVICE_NAME"
