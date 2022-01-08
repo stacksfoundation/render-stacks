@@ -1,0 +1,10 @@
+server {
+    listen 3999 localhost;
+    listen [::]:3999 localhost;
+
+    location / {
+        add_header Access-Control-Allow-Origin *;
+        proxy_pass http://$STACKS_BLOCKCHAIN_API_HOST:$STACKS_BLOCKCHAIN_API_PORT/;
+        break;
+    }
+}
