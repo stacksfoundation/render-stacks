@@ -1,10 +1,10 @@
 FROM nginx:alpine
-COPY configs/nginx.conf.template /etc/nginx/templates/default.conf.template
-COPY scripts/nginx.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
+# COPY configs/nginx.conf.template /etc/nginx/templates/default.conf.template
+# COPY scripts/nginx.sh /entrypoint.sh
+# RUN chmod 755 /entrypoint.sh
 
-ENTRYPOINT [ "/entrypoint.sh" ]
-CMD ["nginx", "-g", "daemon off;"]
+# ENTRYPOINT [ "/entrypoint.sh" ]
+# CMD ["nginx", "-g", "daemon off;"]
 
 # FROM alpine
 # ARG STACKS_SVC_DIR=/etc/service
