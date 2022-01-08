@@ -3,14 +3,12 @@ services:
   - name: mainnet2-stacks-blockchain-api
     type: pserv
     env: docker
-    region: oregon # optional (defaults to oregon)
-    plan: standard # optional (defaults to starter)
+    region: oregon
+    plan: standard
     branch: testing
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
-    # dockerCommand: /start
-    # healthCheckPath: /status
-    autoDeploy: false # optional
+    autoDeploy: false
     envVars:
       - key: PG_HOST
         fromDatabase:
@@ -48,17 +46,16 @@ services:
       mountPath: /root/stacks-blockchain/data
       sizeGB: 25
 
+  # stacks-blockchain instance
   - name: mainnet2-stacks-blockchain
     type: pserv
     env: docker
-    region: oregon # optional (defaults to oregon)
-    plan: standard # optional (defaults to starter)
+    region: oregon
+    plan: standard
     branch: testing
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
-    # dockerCommand: /start
-    # healthCheckPath: /status
-    autoDeploy: false # optional
+    autoDeploy: false 
     envVars:
       - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
@@ -71,16 +68,17 @@ services:
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 
 
+  # nginx proxy instance
   - name: mainnet2-nginx
     type: web
     env: docker
-    region: oregon # optional (defaults to oregon)
-    plan: standard # optional (defaults to starter)
+    region: oregon
+    plan: standard
     branch: testing
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
     healthCheckPath: /status
-    autoDeploy: true # optional
+    autoDeploy: true
     envVars:
       - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
@@ -89,7 +87,7 @@ services:
           property: host
       - fromGroup: mainnet2-settings
 
-# # Managed postgres instance
+# managed DB
 databases:
   - name: mainnet2-postgres
     plan: standard
