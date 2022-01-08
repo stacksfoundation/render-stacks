@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-export SERVICE_FQDN=$(nslookup $SERVICE_NAME | grep Name | awk '{print $2}')
+export SERVICE_NAME=$(nslookup $STACKS_BLOCKCHAIN_API_HOST | grep Name | awk '{print $2}')
 export SERVICE_PORT=$STACKS_BLOCKCHAIN_API_PORT
 export NAMESERVER=$(cat /etc/resolv.conf | grep "nameserver" | head -n1 | awk '{print $2}')
 

@@ -10,7 +10,7 @@ chain = "bitcoin"
 mode = "mocknet"
 
 [[events_observer]]
-endpoint = "stacks-blockchain-api:3700"
+endpoint = "$STACKS_BLOCKCHAIN_API_HOST:$STACKS_CORE_EVENT_PORT"
 retry_count = 255
 events_keys = ["*"]
 

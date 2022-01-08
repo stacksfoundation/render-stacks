@@ -60,7 +60,7 @@ services:
     # healthCheckPath: /status
     autoDeploy: false # optional
     envVars:
-      - key: STACKS_API_HOST
+      - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
           name: mainnet2-stacks-blockchain-api
           type: pserv
@@ -82,7 +82,7 @@ services:
     healthCheckPath: /status
     autoDeploy: true # optional
     envVars:
-      - key: SERVICE_NAME
+      - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
           name: mainnet2-stacks-blockchain-api
           type: pserv

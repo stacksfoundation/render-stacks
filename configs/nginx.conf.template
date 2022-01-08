@@ -1,5 +1,5 @@
 upstream api {
-    server $SERVICE_FQDN:$SERVICE_PORT;
+    server $SERVICE_NAME:$SERVICE_PORT;
 }
 
 resolver $NAMESERVER valid=10s;
