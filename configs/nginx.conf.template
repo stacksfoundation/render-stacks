@@ -1,6 +1,6 @@
 server {
-    listen 3999 localhost;
-    listen [::]:3999 localhost;
+    listen 3999;
+    listen [::]:3999;
 
     location / {
         add_header Access-Control-Allow-Origin *;
