@@ -1,7 +1,7 @@
 FROM nginx:alpine
-COPY configs/nginx.conf.template /etc/nginx/templates/default.conf.template
-COPY scripts/nginx.sh /entrypoint.sh
-RUN chmod 755 /entrypoint.sh
+# COPY configs/nginx.conf.template /etc/nginx/templates/default.conf.template
+# COPY scripts/nginx.sh /entrypoint.sh
+# RUN chmod 755 /entrypoint.sh
 
 # ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["/entrypoint.sh", "nginx", "-g", "daemon off;"]
