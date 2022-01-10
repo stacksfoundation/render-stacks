@@ -12,7 +12,7 @@ services:
     envVars:
       - key: PG_HOST
         fromService:
-          name: mocknet-postgres
+          name: mainnet2-postgres
           type: pserv
           property: host
       - key: PG_PORT
@@ -33,7 +33,7 @@ services:
       - key: PG_PASSWORD
         fromService:
           type: pserv
-          name: mocknet-postgres
+          name: mainnet2-postgres
           envVarKey: POSTGRES_PASSWORD
         # fromDatabase:
         #   name: mainnet2-postgres
@@ -100,14 +100,14 @@ services:
   - name: mainnet2-postgres
     type: pserv
     env: docker
-    region: oregon # optional (defaults to oregon)
-    plan: standard # optional (defaults to starter)
+    region: oregon
+    plan: standard
     branch: testing
     dockerfilePath: postgres.Dockerfile
-    autoDeploy: false # optional
+    autoDeploy: false
     envVars:
       - key: POSTGRES_PASSWORD
-        generateValue: true # will generate a base64-encoded 256-bit secret
+        generateValue: true
 
 
 # # managed DB
