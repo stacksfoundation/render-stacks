@@ -97,12 +97,12 @@ services:
 
 
   # Private Postgres instance
-  - name: mocknet-postgres
+  - name: mainnet2-postgres
     type: pserv
     env: docker
     region: oregon # optional (defaults to oregon)
     plan: standard # optional (defaults to starter)
-    branch: mocknet-render
+    branch: testing
     dockerfilePath: postgres.Dockerfile
     autoDeploy: false # optional
     envVars:
