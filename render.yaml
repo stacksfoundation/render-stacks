@@ -11,25 +11,33 @@ services:
     autoDeploy: false
     envVars:
       - key: PG_HOST
-        fromDatabase:
-          name: mainnet2-postgres
+        fromService:
+          name: mocknet-postgres
+          type: pserv
           property: host
       - key: PG_PORT
-        fromDatabase:
-          name: mainnet2-postgres
-          property: port
+        # fromDatabase:
+        #   name: mainnet2-postgres
+        #   property: port
+        value: 5432
       - key: PG_DATABASE
-        fromDatabase:
-          name: mainnet2-postgres
-          property: database
+        # fromDatabase:
+        #   name: mainnet2-postgres
+        #   property: database
+        value: postgres        
       - key: PG_USER
-        fromDatabase:
-          name: mainnet2-postgres
-          property: user
+        # fromDatabase:
+        #   name: mainnet2-postgres
+        #   property: user
+        value: postgres
       - key: PG_PASSWORD
-        fromDatabase:
-          name: mainnet2-postgres
-          property: password
+        fromService:
+          type: pserv
+          name: mocknet-postgres
+          envVarKey: POSTGRES_PASSWORD
+        # fromDatabase:
+        #   name: mainnet2-postgres
+        #   property: password
       - key: STACKS_CORE_EVENT_HOST
         value: 0.0.0.0
       - key: STACKS_BLOCKCHAIN_API_HOST
@@ -87,13 +95,28 @@ services:
           property: host
       - fromGroup: mainnet2-settings
 
-# managed DB
-databases:
-  - name: mainnet2-postgres
-    plan: standard
-    databaseName: mainnet
-    user: mainnet
-    ipAllowList: []
+
+  # Private Postgres instance
+  - name: mocknet-postgres
+    type: pserv
+    env: docker
+    region: oregon # optional (defaults to oregon)
+    plan: standard # optional (defaults to starter)
+    branch: mocknet-render
+    dockerfilePath: postgres.Dockerfile
+    autoDeploy: false # optional
+    envVars:
+      - key: POSTGRES_PASSWORD
+        generateValue: true # will generate a base64-encoded 256-bit secret
+
+
+# # managed DB
+# databases:
+#   - name: mainnet2-postgres
+#     plan: standard
+#     databaseName: mainnet
+#     user: mainnet
+#     ipAllowList: []
 
 envVarGroups:
   - name: mainnet2-settings
