@@ -91,6 +91,9 @@ services:
 databases:
   - name: mainnet2-postgres
     plan: standard
+    databaseName: mainnet
+    user: mainnet
+    ipAllowList: []
 
 envVarGroups:
   - name: mainnet2-settings
