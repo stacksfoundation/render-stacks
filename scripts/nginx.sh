@@ -52,8 +52,9 @@ echo >&3 "$0"
 sleep 5
 echo >&3 "$0: Reloading nginx"
 
-nginx -s reload -g "daemon off;" &
+nginx -s reload &
 echo >&3 "$0:###########################################"
+ps -ef 
 echo >&3 "$0:###########################################"
 echo >&3 "$0"
 
