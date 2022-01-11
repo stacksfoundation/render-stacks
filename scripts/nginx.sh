@@ -42,5 +42,8 @@ until nc -vz $STACKS_BLOCKCHAIN_API_HOST $STACKS_BLOCKCHAIN_API_PORT >/dev/null 
     echo "$COUNTER) Waiting for $STACKS_BLOCKCHAIN_API_HOST:$STACKS_BLOCKCHAIN_API_PORT"
     sleep 30
 done
+if [ ! -d "/etc/nginx/templates/" ]; then
+    mkdir -p /etc/nginx/templates/
+fi
 cp /srv/nginx-default.conf /etc/nginx/templates/default.conf.template
 nginx -s reload -g "daemon off;"
