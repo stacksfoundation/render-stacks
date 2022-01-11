@@ -50,11 +50,11 @@ cat /etc/nginx/conf.d/default.conf
 echo >&3 "$0 Sleep 5"
 echo >&3 "$0"
 sleep 5
-echo >&3 "$0: Reloading nginx"
+# echo >&3 "$0: Reloading nginx"
 
-nginx -s reload &
-echo >&3 "$0:###########################################"
-ps -ef 
-echo >&3 "$0:###########################################"
-echo >&3 "$0"
+# nginx -s reload &
+# echo >&3 "$0:###########################################"
+# ps -ef 
+# echo >&3 "$0:###########################################"
+# echo >&3 "$0"
 
