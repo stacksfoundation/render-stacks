@@ -45,7 +45,11 @@ services:
       - key: STACKS_BLOCKCHAIN_API_DB
         value: pg
       - key: STACKS_CORE_RPC_HOST
-        value: mainnet2-stacks-blockchain
+        # value: mainnet2-stacks-blockchain
+        fromService:
+          name: mainnet2-stacks-blockchain
+          type: pserv
+          property: host
       - key: STACKS_CORE_RPC_PORT
         value: 80
       - fromGroup: mainnet2-settings
