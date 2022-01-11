@@ -45,5 +45,5 @@ done
 if [ ! -d "/etc/nginx/templates/" ]; then
     mkdir -p /etc/nginx/templates/
 fi
-cp /srv/nginx-default.conf /etc/nginx/templates/default.conf.template
+envsubst < /srv/nginx.conf > /etc/nginx/conf.d/default.conf
 nginx -s reload -g "daemon off;"
