@@ -32,18 +32,20 @@ if /usr/bin/find "/docker-entrypoint.d/" -mindepth 1 -maxdepth 1 -type f -print 
 else
     echo >&3 "$0: No files found in /docker-entrypoint.d/, skipping configuration"
 fi
-echo "Starting Nginx"
+echo >&3 "$0: Starting Nginx"
 nginx &
-echo "Waiting for the API to come up"
+echo >&3 "$0: Waiting for the API to come up"
 # wait for api to respond on 3999, then update config and reload
 COUNTER=0
 until nc -vz $STACKS_BLOCKCHAIN_API_HOST $STACKS_BLOCKCHAIN_API_PORT >/dev/null 2>&1; do
     COUNTER=$((COUNTER+1))
-    echo "$COUNTER) Waiting for $STACKS_BLOCKCHAIN_API_HOST:$STACKS_BLOCKCHAIN_API_PORT"
+    echo >&3 "$0:$COUNTER) Waiting for $STACKS_BLOCKCHAIN_API_HOST:$STACKS_BLOCKCHAIN_API_PORT"
     sleep 30
 done
-if [ ! -d "/etc/nginx/templates/" ]; then
-    mkdir -p /etc/nginx/templates/
-fi
+echo >&3 "$0: Running envsubst on /srv/nginx.conf >  /etc/nginx/conf.d/default.conf"
 envsubst < /srv/nginx.conf > /etc/nginx/conf.d/default.conf
+sleep 5
+echo >&3 "$0: Reloading nginx"
 nginx -s reload -g "daemon off;"
+echo >&3 "$0: Exiting"
+exit 0
