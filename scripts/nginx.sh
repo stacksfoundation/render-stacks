@@ -42,10 +42,18 @@ until nc -vz $STACKS_BLOCKCHAIN_API_HOST $STACKS_BLOCKCHAIN_API_PORT >/dev/null 
     echo >&3 "$0:$COUNTER) Waiting for $STACKS_BLOCKCHAIN_API_HOST:$STACKS_BLOCKCHAIN_API_PORT"
     sleep 30
 done
+echo >&3 "$0"
+echo >&e "$0: API is reachable ($STACKS_BLOCKCHAIN_API_HOST:$STACKS_BLOCKCHAIN_API_PORT)"
 echo >&3 "$0: Running envsubst on /srv/nginx.conf >  /etc/nginx/conf.d/default.conf"
 envsubst < /srv/nginx.conf > /etc/nginx/conf.d/default.conf
+cat /etc/nginx/conf.d/default.conf
+echo >&3 "$0 Sleep 5"
+echo >&3 "$0"
 sleep 5
 echo >&3 "$0: Reloading nginx"
+
 nginx -s reload -g "daemon off;"
-echo >&3 "$0: Exiting"
-exit 0
+echo >&3 "$0:###########################################"
+echo >&3 "$0:###########################################"
+echo >&3 "$0"
+
