@@ -34,8 +34,7 @@ if [ "$1" = "nginx" -o "$1" = "nginx-debug" ]; then
         echo >&3 "$0: No files found in /docker-entrypoint.d/, skipping configuration"
     fi
 fi
-echo >&3 "$0: exec \"$@\""
-exec "nginx"
+ nginx &
 
 echo >&3 "$0: Waiting for the API to come up"
 # wait for api to respond on 3999, then update config and reload
@@ -55,7 +54,7 @@ echo >&3 "$0"
 sleep 5
 echo >&3 "$0: Reloading nginx"
 
-exec "nginx -s reload"
+nginx -s reload &
 echo >&3 "$0:###########################################"
 ps -ef 
 echo >&3 "$0:###########################################"
