@@ -33,7 +33,7 @@ else
     echo >&3 "$0: No files found in /docker-entrypoint.d/, skipping configuration"
 fi
 echo >&3 "$0: Starting Nginx"
-nginx &
+exec nginx
 echo >&3 "$0: Waiting for the API to come up"
 # wait for api to respond on 3999, then update config and reload
 COUNTER=0
@@ -52,7 +52,7 @@ echo >&3 "$0"
 sleep 5
 # echo >&3 "$0: Reloading nginx"
 
-# nginx -s reload &
+# exec nginx -s reload
 # echo >&3 "$0:###########################################"
 # ps -ef 
 # echo >&3 "$0:###########################################"
