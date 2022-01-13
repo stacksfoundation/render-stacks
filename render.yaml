@@ -5,7 +5,7 @@ services:
     env: docker
     region: oregon
     plan: standard
-    branch: testing
+    branch: testing-mocknet
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     autoDeploy: false
@@ -50,7 +50,7 @@ services:
     env: docker
     region: oregon
     plan: standard
-    branch: testing
+    branch: testing-mocknet
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     autoDeploy: false 
@@ -68,7 +68,7 @@ services:
     env: docker
     region: oregon
     plan: standard
-    branch: testing
+    branch: testing-mocknet
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
     healthCheckPath: /status
@@ -88,7 +88,7 @@ services:
     env: docker
     region: oregon
     plan: standard
-    branch: testing
+    branch: testing-mocknet
     dockerfilePath: postgres.Dockerfile
     autoDeploy: false
     envVars:
