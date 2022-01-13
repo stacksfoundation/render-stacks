@@ -1,6 +1,6 @@
 services:
   # stacks-blockchain-api instance
-  - name: mainnet2-stacks-blockchain-api
+  - name: mocknet-stacks-blockchain-api
     type: pserv
     env: docker
     region: oregon
@@ -12,32 +12,23 @@ services:
     envVars:
       - key: PG_HOST
         fromService:
-          name: mainnet2-postgres
+          name: mocknet-postgres
           type: pserv
           property: host
       - key: PG_PORT
-        # fromDatabase:
-        #   name: mainnet2-postgres
-        #   property: port
-        value: 5432
+        fromService:
+          name: mocknet-postgres
+          type: pserv
+          property: port
       - key: PG_DATABASE
-        # fromDatabase:
-        #   name: mainnet2-postgres
-        #   property: database
         value: postgres        
       - key: PG_USER
-        # fromDatabase:
-        #   name: mainnet2-postgres
-        #   property: user
         value: postgres
       - key: PG_PASSWORD
         fromService:
           type: pserv
-          name: mainnet2-postgres
+          name: mocknet-postgres
           envVarKey: POSTGRES_PASSWORD
-        # fromDatabase:
-        #   name: mainnet2-postgres
-        #   property: password
       - key: STACKS_CORE_EVENT_HOST
         value: 0.0.0.0
       - key: STACKS_BLOCKCHAIN_API_HOST
@@ -45,21 +36,16 @@ services:
       - key: STACKS_BLOCKCHAIN_API_DB
         value: pg
       - key: STACKS_CORE_RPC_HOST
-        # value: mainnet2-stacks-blockchain
         fromService:
-          name: mainnet2-stacks-blockchain
+          name: mocknet-stacks-blockchain
           type: pserv
           property: host
       - key: STACKS_CORE_RPC_PORT
         value: 80
-      - fromGroup: mainnet2-settings
-    disk:
-      name: mainnet2-api-event-replay
-      mountPath: /root/stacks-blockchain/data
-      sizeGB: 25
+      - fromGroup: mocknet-settings
 
   # stacks-blockchain instance
-  - name: mainnet2-stacks-blockchain
+  - name: mocknet-stacks-blockchain
     type: pserv
     env: docker
     region: oregon
@@ -71,17 +57,13 @@ services:
     envVars:
       - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
-          name: mainnet2-stacks-blockchain-api
+          name: mocknet-stacks-blockchain-api
           type: pserv
           property: host
-      - fromGroup: mainnet2-settings
-    disk:
-      name: mainnet2-stacks-blockchain
-      mountPath: /root/stacks-blockchain/data
-      sizeGB: 50 
+      - fromGroup: mocknet-settings
 
   # nginx proxy instance
-  - name: mainnet2-nginx
+  - name: mocknet-nginx
     type: web
     env: docker
     region: oregon
@@ -94,14 +76,14 @@ services:
     envVars:
       - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
-          name: mainnet2-stacks-blockchain-api
+          name: mocknet-stacks-blockchain-api
           type: pserv
           property: host
-      - fromGroup: mainnet2-settings
+      - fromGroup: mocknet-settings
 
 
   # Private Postgres instance
-  - name: mainnet2-postgres
+  - name: mocknet-postgres
     type: pserv
     env: docker
     region: oregon
@@ -113,30 +95,19 @@ services:
       - key: POSTGRES_PASSWORD
         generateValue: true
 
-
-# # managed DB
-# databases:
-#   - name: mainnet2-postgres
-#     plan: standard
-#     databaseName: mainnet
-#     user: mainnet
-#     ipAllowList: []
-
 envVarGroups:
-  - name: mainnet2-settings
+  - name: mocknet-settings
     envVars:
       - key: NODE_ENV
         value: production
       - key: GIT_TAG
         value: master
       - key: STACKS_CHAIN_ID
-        value: 0x00000001
+        value: 2147483648
       - key: V2_POX_MIN_AMOUNT_USTX
         value: 90000000260
       - key: STACKS_NETWORK
-        value: mainnet
-      - key: STACKS_EXPORT_EVENTS_FILE
-        value: /root/stacks-blockchain/stacks-node-events.tsv
+        value: mocknet
       - key: STACKS_CORE_EVENT_PORT
         value: 3700
       - key: STACKS_BLOCKCHAIN_API_PORT
