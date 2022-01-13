@@ -1,43 +1,35 @@
 services:
   # stacks-blockchain-api instance
-  - name: mainnet2-stacks-blockchain-api
+  - name: testnet-stacks-blockchain-api
     type: pserv
     env: docker
     region: oregon
     plan: standard
-    branch: testing
+    branch: testing-testnet
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     autoDeploy: false
     envVars:
       - key: PG_HOST
-        fromService:
-          name: mainnet2-postgres
-          type: pserv
+        fromDatabase:
+          name: testnet-postgres
           property: host
       - key: PG_PORT
-        # fromDatabase:
-        #   name: mainnet2-postgres
-        #   property: port
-        value: 5432
+        fromDatabase:
+          name: testnet-postgres
+          property: port
       - key: PG_DATABASE
-        # fromDatabase:
-        #   name: mainnet2-postgres
-        #   property: database
-        value: postgres        
+        fromDatabase:
+          name: testnet-postgres
+          property: database
       - key: PG_USER
-        # fromDatabase:
-        #   name: mainnet2-postgres
-        #   property: user
-        value: postgres
+        fromDatabase:
+          name: testnet-postgres
+          property: user
       - key: PG_PASSWORD
-        fromService:
-          type: pserv
-          name: mainnet2-postgres
-          envVarKey: POSTGRES_PASSWORD
-        # fromDatabase:
-        #   name: mainnet2-postgres
-        #   property: password
+        fromDatabase:
+          name: testnet-postgres
+          property: password
       - key: STACKS_CORE_EVENT_HOST
         value: 0.0.0.0
       - key: STACKS_BLOCKCHAIN_API_HOST
@@ -45,48 +37,47 @@ services:
       - key: STACKS_BLOCKCHAIN_API_DB
         value: pg
       - key: STACKS_CORE_RPC_HOST
-        # value: mainnet2-stacks-blockchain
         fromService:
-          name: mainnet2-stacks-blockchain
+          name: testnet-stacks-blockchain
           type: pserv
           property: host
       - key: STACKS_CORE_RPC_PORT
         value: 80
-      - fromGroup: mainnet2-settings
+      - fromGroup: testnet-settings
     disk:
-      name: mainnet2-api-event-replay
+      name: testnet-api-event-replay
       mountPath: /root/stacks-blockchain/data
       sizeGB: 25
 
   # stacks-blockchain instance
-  - name: mainnet2-stacks-blockchain
+  - name: testnet-stacks-blockchain
     type: pserv
     env: docker
     region: oregon
     plan: standard
-    branch: testing
+    branch: testing-testnet
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     autoDeploy: false 
     envVars:
       - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
-          name: mainnet2-stacks-blockchain-api
+          name: testnet-stacks-blockchain-api
           type: pserv
           property: host
-      - fromGroup: mainnet2-settings
+      - fromGroup: testnet-settings
     disk:
-      name: mainnet2-stacks-blockchain
+      name: testnet-stacks-blockchain
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 
 
   # nginx proxy instance
-  - name: mainnet2-nginx
+  - name: testnet-nginx
     type: web
     env: docker
     region: oregon
     plan: standard
-    branch: testing
+    branch: testing-testnet
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
     healthCheckPath: /status
@@ -94,47 +85,29 @@ services:
     envVars:
       - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
-          name: mainnet2-stacks-blockchain-api
+          name: testnet-stacks-blockchain-api
           type: pserv
           property: host
-      - fromGroup: mainnet2-settings
+      - fromGroup: testnet-settings
 
-
-  # Private Postgres instance
-  - name: mainnet2-postgres
-    type: pserv
-    env: docker
-    region: oregon
+# Managed Postgres instance
+databases:
+  - name: testnet-postgres
     plan: standard
-    branch: testing
-    dockerfilePath: postgres.Dockerfile
-    autoDeploy: false
-    envVars:
-      - key: POSTGRES_PASSWORD
-        generateValue: true
-
-
-# # managed DB
-# databases:
-#   - name: mainnet2-postgres
-#     plan: standard
-#     databaseName: mainnet
-#     user: mainnet
-#     ipAllowList: []
 
 envVarGroups:
-  - name: mainnet2-settings
+  - name: testnet-settings
     envVars:
       - key: NODE_ENV
         value: production
       - key: GIT_TAG
         value: master
       - key: STACKS_CHAIN_ID
-        value: 0x00000001
+        value: 0x80000000
       - key: V2_POX_MIN_AMOUNT_USTX
         value: 90000000260
       - key: STACKS_NETWORK
-        value: mainnet
+        value: testnet
       - key: STACKS_EXPORT_EVENTS_FILE
         value: /root/stacks-blockchain/stacks-node-events.tsv
       - key: STACKS_CORE_EVENT_PORT
