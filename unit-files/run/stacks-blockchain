@@ -1,0 +1,17 @@
+#!/bin/sh
+exec 2>&1
+
+case $STACKS_NETWORK in
+    mainnet)
+        CONFIG=/stacks-blockchain/Stacks-mainnet.toml    
+        ;;
+    testnet)
+        CONFIG=/stacks-blockchain/Stacks-testnet.toml
+        ;;
+    *)
+        CONFIG=/stacks-blockchain/Stacks-mocknet.toml
+        ;;
+esac
+sed -i -e "s|\$STACKS_BLOCKCHAIN_API_HOST|$STACKS_BLOCKCHAIN_API_HOST|g" $CONFIG
+sed -i -e "s|\$STACKS_CORE_EVENT_PORT|$STACKS_CORE_EVENT_PORT|g" $CONFIG
+exec /bin/stacks-node start --config=$CONFIG 2>&1

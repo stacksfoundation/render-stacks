@@ -1,0 +1,116 @@
+services:
+  # stacks-blockchain-api instance
+  - name: testnet-stacks-blockchain-api
+    type: pserv
+    env: docker
+    region: oregon
+    plan: Standard
+    branch: testing-testnet
+    dockerfilePath: stacks-blockchain-api.Dockerfile
+    dockerContext: .
+    autoDeploy: false
+    envVars:
+      - key: PG_HOST
+        fromDatabase:
+          name: testnet-postgres
+          property: host
+      - key: PG_PORT
+        fromDatabase:
+          name: testnet-postgres
+          property: port
+      - key: PG_DATABASE
+        fromDatabase:
+          name: testnet-postgres
+          property: database
+      - key: PG_USER
+        fromDatabase:
+          name: testnet-postgres
+          property: user
+      - key: PG_PASSWORD
+        fromDatabase:
+          name: testnet-postgres
+          property: password
+      - key: STACKS_CORE_EVENT_HOST
+        value: 0.0.0.0
+      - key: STACKS_BLOCKCHAIN_API_HOST
+        value: 0.0.0.0
+      - key: STACKS_BLOCKCHAIN_API_DB
+        value: pg
+      - key: STACKS_CORE_RPC_HOST
+        fromService:
+          name: testnet-stacks-blockchain
+          type: pserv
+          property: host
+      - key: STACKS_CORE_RPC_PORT
+        value: 80
+      - fromGroup: testnet-settings
+    disk:
+      name: testnet-api-event-replay
+      mountPath: /root/stacks-blockchain/data
+      sizeGB: 25
+
+  # stacks-blockchain instance
+  - name: testnet-stacks-blockchain
+    type: pserv
+    env: docker
+    region: oregon
+    plan: Standard
+    branch: testing-testnet
+    dockerfilePath: stacks-blockchain.Dockerfile
+    dockerContext: .
+    autoDeploy: false 
+    envVars:
+      - key: STACKS_BLOCKCHAIN_API_HOST
+        fromService:
+          name: testnet-stacks-blockchain-api
+          type: pserv
+          property: host
+      - fromGroup: testnet-settings
+    disk:
+      name: testnet-stacks-blockchain
+      mountPath: /root/stacks-blockchain/data
+      sizeGB: 50 
+
+  # nginx proxy instance
+  - name: testnet-nginx
+    type: web
+    env: docker
+    region: oregon
+    plan: Standard
+    branch: testing-testnet
+    dockerfilePath: nginx.Dockerfile
+    dockerContext: .
+    healthCheckPath: /status
+    autoDeploy: true
+    envVars:
+      - key: STACKS_BLOCKCHAIN_API_HOST
+        fromService:
+          name: testnet-stacks-blockchain-api
+          type: pserv
+          property: host
+      - fromGroup: testnet-settings
+
+# Managed Postgres instance
+databases:
+  - name: testnet-postgres
+    plan: Standard Plus
+
+envVarGroups:
+  - name: testnet-settings
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: GIT_TAG
+        value: master
+      - key: STACKS_CHAIN_ID
+        value: 0x80000000
+      - key: V2_POX_MIN_AMOUNT_USTX
+        value: 90000000260
+      - key: STACKS_NETWORK
+        value: testnet
+      - key: STACKS_EXPORT_EVENTS_FILE
+        value: /root/stacks-blockchain/stacks-node-events.tsv
+      - key: STACKS_CORE_EVENT_PORT
+        value: 3700
+      - key: STACKS_BLOCKCHAIN_API_PORT
+        value: 3999
