@@ -14,7 +14,7 @@ rpc_port = 18332
 peer_port = 18333
 
 [[events_observer]]
-endpoint = "localhost:3700"
+endpoint = "$STACKS_BLOCKCHAIN_API_HOST:$STACKS_CORE_EVENT_PORT"
 retry_count = 255
 events_keys = ["*"]
 
