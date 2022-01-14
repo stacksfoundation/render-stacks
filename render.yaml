@@ -4,7 +4,7 @@ services:
     type: pserv
     env: docker
     region: oregon
-    plan: standard
+    plan: Standard
     branch: testing-testnet
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
@@ -54,7 +54,7 @@ services:
     type: pserv
     env: docker
     region: oregon
-    plan: standard
+    plan: Standard
     branch: testing-testnet
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
@@ -76,7 +76,7 @@ services:
     type: web
     env: docker
     region: oregon
-    plan: standard
+    plan: Standard
     branch: testing-testnet
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
@@ -93,7 +93,7 @@ services:
 # Managed Postgres instance
 databases:
   - name: testnet-postgres
-    plan: standard
+    plan: Standard Plus
 
 envVarGroups:
   - name: testnet-settings
