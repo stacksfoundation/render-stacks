@@ -10,6 +10,8 @@ services:
     dockerContext: .
     autoDeploy: false
     envVars:
+      - key: PG_CONNECTION_POOL_MAX
+        value: 1
       - key: PG_HOST
         fromService:
           name: mocknet-postgres
