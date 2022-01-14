@@ -5,7 +5,7 @@ services:
     env: docker
     region: oregon
     plan: standard
-    branch: testing-mainnet
+    branch: mainnet
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     autoDeploy: false
@@ -55,7 +55,7 @@ services:
     env: docker
     region: oregon
     plan: standard
-    branch: testing-mainnet
+    branch: mainnet
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     autoDeploy: false 
@@ -77,7 +77,7 @@ services:
     env: docker
     region: oregon
     plan: standard
-    branch: testing-mainnet
+    branch: mainnet
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
     healthCheckPath: /status
