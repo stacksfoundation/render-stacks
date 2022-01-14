@@ -31,5 +31,5 @@ During this time though, `/status` will respond with `200 OK` to satisfy the hea
 
 ## Deployment
 Fork this repo and update [render.yaml](./render.yaml) to your liking, or use the button below to launch a render blueprint directly \
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wileyj/render-stacks&branch=testing-testnet)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wileyj/render-stacks&branch=testnet)
 
