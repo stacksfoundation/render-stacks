@@ -39,9 +39,10 @@ fi
 echo >&3 "$0: Waiting for the API to come up"
 # wait for api to respond on 3999, then update config and reload
 COUNTER=0
-until nc -vz $STACKS_BLOCKCHAIN_API_HOST $STACKS_BLOCKCHAIN_API_PORT >/dev/null 2>&1; do
+# until nc -vz $STACKS_BLOCKCHAIN_API_HOST $STACKS_BLOCKCHAIN_API_PORT >/dev/null 2>&1; do
+until [ $(curl --write-out "%{http_code}\n" "http://${STACKS_BLOCKCHAIN_API_HOST}/extended/v1/status" --output output.txt --silent) -eq "200" ]; do
     COUNTER=$((COUNTER+1))
-    echo >&3 "$0:$COUNTER) Waiting for $STACKS_BLOCKCHAIN_API_HOST:$STACKS_BLOCKCHAIN_API_PORT"
+    echo "$0:$COUNTER) Waiting for 200 from: http://${STACKS_BLOCKCHAIN_API_HOST}/extended/v1/status"
     sleep 30
 done
 echo >&3 "$0"
