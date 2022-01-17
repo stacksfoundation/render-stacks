@@ -21,11 +21,6 @@ services:
         value: postgres        
       - key: PG_USER
         value: postgres
-      - key: PG_PASSWORD
-        fromService:
-          type: pserv
-          name: mocknet-postgres
-          envVarKey: POSTGRES_PASSWORD
       - key: STACKS_CORE_EVENT_HOST
         value: 0.0.0.0
       - key: STACKS_BLOCKCHAIN_API_HOST
@@ -97,8 +92,8 @@ services:
     dockerfilePath: postgres.Dockerfile
     autoDeploy: false
     envVars:
-      - key: POSTGRES_PASSWORD
-        generateValue: true
+      - fromGroup: mocknet-settings
+
 
 envVarGroups:
   - name: mocknet-settings
@@ -119,3 +114,5 @@ envVarGroups:
         value: 3700
       - key: STACKS_BLOCKCHAIN_API_PORT
         value: 3999
+      - key: POSTGRES_PASSWORD
+        value: postgres
