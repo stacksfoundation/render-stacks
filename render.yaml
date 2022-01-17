@@ -108,8 +108,6 @@ envVarGroups:
         value: 90000000260
       - key: STACKS_NETWORK
         value: mocknet
-      - key: STACKS_EXPORT_EVENTS_FILE
-        value: /root/stacks-blockchain/stacks-node-events.tsv
       - key: STACKS_CORE_EVENT_PORT
         value: 3700
       - key: STACKS_BLOCKCHAIN_API_PORT
