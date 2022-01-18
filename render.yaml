@@ -1,6 +1,6 @@
 services:
   # stacks-blockchain-api instance
-  - name: testnet-stacks-blockchain-api
+  - name: stacks-blockchain-api
     type: pserv
     env: docker
     region: oregon
@@ -38,19 +38,19 @@ services:
         value: pg
       - key: STACKS_CORE_RPC_HOST
         fromService:
-          name: testnet-stacks-blockchain
+          name: stacks-blockchain
           type: pserv
           property: host
       - key: STACKS_CORE_RPC_PORT
         value: 80
       - fromGroup: testnet-settings
     disk:
-      name: testnet-api-event-replay
+      name: api-event-replay
       mountPath: /root/stacks-blockchain/data
       sizeGB: 25
 
   # stacks-blockchain instance
-  - name: testnet-stacks-blockchain
+  - name: stacks-blockchain
     type: pserv
     env: docker
     region: oregon
@@ -62,17 +62,17 @@ services:
     envVars:
       - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
-          name: testnet-stacks-blockchain-api
+          name: stacks-blockchain-api
           type: pserv
           property: host
       - fromGroup: testnet-settings
     disk:
-      name: testnet-stacks-blockchain
+      name: stacks-blockchain
       mountPath: /root/stacks-blockchain/data
       sizeGB: 50 
 
   # nginx proxy instance
-  - name: testnet-nginx
+  - name: nginx
     type: web
     env: docker
     region: oregon
@@ -85,14 +85,14 @@ services:
     envVars:
       - key: STACKS_BLOCKCHAIN_API_HOST
         fromService:
-          name: testnet-stacks-blockchain-api
+          name: stacks-blockchain-api
           type: pserv
           property: host
       - fromGroup: testnet-settings
 
 # Managed Postgres instance
 databases:
-  - name: testnet-postgres
+  - name: postgres
     plan: Standard Plus
 
 envVarGroups:
