@@ -5,7 +5,7 @@ services:
     env: docker
     region: oregon
     plan: Standard
-    branch: testnet
+    branch: mainnet
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     autoDeploy: false
@@ -55,7 +55,7 @@ services:
     env: docker
     region: oregon
     plan: Standard
-    branch: testnet
+    branch: mainnet
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     autoDeploy: false 
@@ -77,7 +77,7 @@ services:
     env: docker
     region: oregon
     plan: Standard
-    branch: testnet
+    branch: mainnet
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
     healthCheckPath: /status
@@ -92,7 +92,7 @@ services:
 
 # Managed Postgres instance
 databases:
-  - name: testnet-postgres
+  - name: mainnet-postgres
     plan: Standard Plus
 
 envVarGroups:
