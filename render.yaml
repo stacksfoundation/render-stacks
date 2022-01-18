@@ -4,8 +4,8 @@ services:
     type: pserv
     env: docker
     region: oregon
-    plan: standard
-    branch: mainnet
+    plan: Standard
+    branch: testnet
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     autoDeploy: false
@@ -45,7 +45,7 @@ services:
         value: 80
       - fromGroup: mainnet-settings
     disk:
-      name: mainnet-api-event-replay
+      name: api-event-replay
       mountPath: /root/stacks-blockchain/data
       sizeGB: 25
 
@@ -54,8 +54,8 @@ services:
     type: pserv
     env: docker
     region: oregon
-    plan: standard
-    branch: mainnet
+    plan: Standard
+    branch: testnet
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     autoDeploy: false 
@@ -76,8 +76,8 @@ services:
     type: web
     env: docker
     region: oregon
-    plan: standard
-    branch: mainnet
+    plan: Standard
+    branch: testnet
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
     healthCheckPath: /status
@@ -92,8 +92,8 @@ services:
 
 # Managed Postgres instance
 databases:
-  - name: mainnet-postgres
-    plan: standard
+  - name: testnet-postgres
+    plan: Standard Plus
 
 envVarGroups:
   - name: mainnet-settings
