@@ -4,8 +4,8 @@ services:
     type: pserv
     env: docker
     region: oregon
-    plan: standard
-    branch: testing-mocknet
+    plan: Standard
+    branch: mocknet
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
     autoDeploy: false
@@ -35,18 +35,14 @@ services:
       - key: STACKS_CORE_RPC_PORT
         value: 80
       - fromGroup: mocknet-settings
-    disk:
-      name: mocknet-api-event-replay
-      mountPath: /root/stacks-blockchain/data
-      sizeGB: 25
 
   # stacks-blockchain instance
   - name: mocknet-stacks-blockchain
     type: pserv
     env: docker
     region: oregon
-    plan: standard
-    branch: testing-mocknet
+    plan: Standard
+    branch: mocknet
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
     autoDeploy: false 
@@ -57,18 +53,14 @@ services:
           type: pserv
           property: host
       - fromGroup: mocknet-settings
-    disk:
-      name: mocknet-stacks-blockchain
-      mountPath: /root/stacks-blockchain/data
-      sizeGB: 50 
 
   # nginx proxy instance
   - name: mocknet-nginx
     type: web
     env: docker
     region: oregon
-    plan: standard
-    branch: testing-mocknet
+    plan: Standard
+    branch: mocknet
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
     healthCheckPath: /status
@@ -88,7 +80,7 @@ services:
     env: docker
     region: oregon
     plan: standard
-    branch: testing-mocknet
+    branch: mocknet
     dockerfilePath: postgres.Dockerfile
     autoDeploy: false
     envVars:
