@@ -1,6 +1,6 @@
-ARG STACKS_API_VERSION=1.0.4
+ARG STACKS_API_VERSION=1.0.8
 
-FROM hirosystems/stacks-blockchain-api:${STACKS_API_VERSION} 
+FROM aulneau/stacks-blockchain-api:develop 
 
 ARG STACKS_NETWORK=mainnet
 ARG LOG_DIR=/var/log/
