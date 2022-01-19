@@ -45,7 +45,7 @@ services:
         value: 80
       - fromGroup: mainnet-settings
     disk:
-      name: mainnet-api-event-replay
+      name: api-event-replay
       mountPath: /root/stacks-blockchain/data
       sizeGB: 25
 
@@ -93,7 +93,7 @@ services:
 # Managed Postgres instance
 databases:
   - name: mainnet-postgres
-    plan: standard
+    plan: Standard Plus
 
 envVarGroups:
   - name: mainnet-settings
