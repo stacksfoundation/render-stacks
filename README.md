@@ -8,7 +8,7 @@ This repo makes it possible to spin up an instance of the [stacks-blockchain](ht
 
 *One thing to note is that with the free-tier plan, it's **possible** to run this with some modifications (mainly to the persistent disks and database), but it's **NOT recommended***
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wileyj/render-stacks&branch=testnet)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wileyj/render-stacks&branch=mocknet)
 
 
 ## Components
