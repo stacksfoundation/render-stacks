@@ -65,11 +65,6 @@ services:
           name: testnet-stacks-blockchain-api
           type: pserv
           property: host
-      - key: STACKS_BLOCKCHAIN_API_PORT
-        fromService:
-          name: testnet-stacks-blockchain-api
-          type: pserv
-          property: port
       - fromGroup: testnet-settings
     disk:
       name: testnet-stacks-blockchain
