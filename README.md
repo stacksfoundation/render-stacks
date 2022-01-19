@@ -6,30 +6,43 @@ This repo makes it possible to spin up an instance of the [stacks-blockchain](ht
 [Docs for render](https://render.com/docs)
 
 
-One thing to note is that with the free-tier plan, it's **possible** to run this with some modifications (mainly to the persistent disks), but it's **NOT recommended**
+*One thing to note is that with the free-tier plan, it's **possible** to run this with some modifications (mainly to the persistent disks and database), but it's **NOT recommended***
 
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wileyj/render-stacks&branch=testnet)
 
 
 ## Components
 ### stacks-blockchain
 This is the stacks-blockchain container, built from the [officially released docker image](https://hub.docker.com/r/blockstack/stacks-blockchain/tags) \
-Some additional components were added to make the startup work within render's platform (essentially there is an nginx proxy in front of stacks-blockchain)
+Some additional components were added to make the startup work within render's platform (essentially there is an nginx proxy in front of stacks-blockchain) \
+Note that this instance is unreachable on the P2P port 20444 from external neighbors, but the HTTP endpoint will be available over port `80` once the port opens (on first sync, this can take a while). \
+The container that is built from [stacks-blockchain.Dockerfile](./stacks-blockchain.Dockerfile) uses runit to start the 2 services (nginx, stacks-blockchain), with the [service script](./unit-files/run/stacks-blockchain) performing a `sed` replacement for the `event-observer` config directive before starting the service. \
+Nginx itself is a very [simple setup](./configs/nginx-stacks.conf) - `/status` returns a `200` for the render health check, and nginx proxies / to `localhost:20443` (it may take sometime before this port is open).
 
+---
 
 ### stacks-blockchain-api
 This is the stacks-blockchain API container, built from the [officially released docker image](https://hub.docker.com/r/hirosystems/stacks-blockchain-api/tags) \
-As with the stacks-blockchain container, some additional components were added to make the startup work within render's platform (essentially there is an nginx proxy in front of stacks-blockchain-api)
+As with the stacks-blockchain container, some additional components were added to make the startup work within render's platform (essentially there is an nginx proxy in front of stacks-blockchain-api) \
+In render, this means that the API's event-observer is running on port `3700`, and the HTTP interface is on `3999`, with an nginx proxy over port `80` to the HTTP endpoint (when it's available - dependent on `<stacks-blockchain>/v2/info` ). \
+The container that is built from [stacks-blockchain-api.Dockerfile](./stacks-blockchain-api.Dockerfile) uses runit to start the 2 services (nginx, stacks-blockchain-api). \
+Nginx itself is a very [simple setup](./configs/nginx-api.conf) - `/status` returns a `200` for the render health check, and nginx proxies / to `localhost:3999`. 
 
+---
 
 ### postgres
-Using the render.yaml file, this spins up a managed instance of postgres
+Using the [render.yaml](./render.yaml) file, this spins up a managed instance of postgres. Currently it's open to the world and the password is randomly generated. \
+IP allowlist can be added to render.yaml to restrict access further. 
+
+---
 
 ### nginx
 The only publicly accessible service, this container acts as a proxy for the API (both /`extended/v1` and `/v2` endpoints)
 During startup, it's not uncommon to see this service take a while before the root domain works.  \
-During this time though, `/status` will respond with `200 OK` to satisfy the health checks for render. 
+During this time though, `/status` will respond with `200 OK` to satisfy the health checks for render. \
 
-## Deployment
-Fork this repo and update [render.yaml](./render.yaml) to your liking, or use the button below to launch a render blueprint directly \
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/wileyj/render-stacks&branch=master)
+The [default config](configs/nginx-default.conf) is generic and only exposes `/status` for the render healtcheck. The [entrypoint script](scripts/nginx.sh) is periodically checking the `<stacks-blockchain-instance>/extended/v1/status` endpoint for a `200` response. \
+Once the API is serving requests, an envsubst is run from the [entrypoint script](scripts/nginx.sh) on the [config](./configs/nginx.conf) and nginx is reloaded with the new config enabled. 
+ 
+---
 
