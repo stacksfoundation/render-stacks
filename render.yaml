@@ -4,7 +4,7 @@ services:
     type: pserv
     env: docker
     region: oregon
-    plan: Standard
+    plan: Standard Plus
     branch: mainnet
     dockerfilePath: stacks-blockchain-api.Dockerfile
     dockerContext: .
@@ -54,7 +54,7 @@ services:
     type: pserv
     env: docker
     region: oregon
-    plan: Standard
+    plan: Standard Plus
     branch: mainnet
     dockerfilePath: stacks-blockchain.Dockerfile
     dockerContext: .
@@ -76,7 +76,7 @@ services:
     type: web
     env: docker
     region: oregon
-    plan: Standard
+    plan: Standard Plus
     branch: mainnet
     dockerfilePath: nginx.Dockerfile
     dockerContext: .
