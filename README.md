@@ -65,3 +65,7 @@ Once the API is serving requests, an envsubst is run from the [entrypoint script
  
 ---
 
+## Deployment
+Fork this repo and update [render.yaml](./render.yaml) to your liking, or use the big blue **Deploy to Render** button above
+
+
