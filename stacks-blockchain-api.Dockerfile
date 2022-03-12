@@ -1,4 +1,4 @@
-ARG STACKS_API_VERSION=1.0.4
+ARG STACKS_API_VERSION=3.0.1
 
 FROM hirosystems/stacks-blockchain-api:${STACKS_API_VERSION} 
 
